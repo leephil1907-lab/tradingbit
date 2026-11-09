@@ -65,7 +65,7 @@ export default function SettingsPage() {
       <p className="mt-1 text-sm text-muted">Connections, notifications, permissions and the audit trail — everything an operator should see at a glance.</p>
 
       {/* ── API connections ─────────────────────────────── */}
-      <section aria-label="API connections" className="panel-flat mt-4 overflow-hidden">
+      <section id="api-connections" aria-label="API connections" className="panel-flat mt-4 overflow-hidden scroll-mt-6">
         <div className="flex items-center justify-between gap-3 border-b hairline px-5 py-4"><span className="section-label">API connections</span><span className="num text-[8px] uppercase tracking-[0.18em] text-faint">Read-only in paper mode</span></div>
         <ul className="divide-y hairline-soft">
           {CONNECTIONS.map((c) => {

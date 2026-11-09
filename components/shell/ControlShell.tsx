@@ -18,6 +18,8 @@ const I = {
   risk: (p: IP) => (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" {...p}><path d="M12 3l8 3.2v5.3c0 4.8-3.4 9-8 10-4.6-1-8-5.2-8-10V6.2L12 3z"/><path d="M9.5 12l2 2 3.5-4.5"/></svg>),
   alerts: (p: IP) => (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M6 9.5a6 6 0 0 1 12 0c0 4 1.5 5.5 2 6.2.4.6-.1 1.3-.9 1.3H4.9c-.8 0-1.3-.7-.9-1.3.5-.7 2-2.2 2-6.2z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>),
   audit: (p: IP) => (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" {...p}><path d="M6 3.5h9L19 8v12.5H6z"/><path d="M14.5 3.5V8H19"/><path d="M9 12h6M9 15.5h6M9 8.5h2.5"/></svg>),
+  orders: (p: IP) => (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" {...p}><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1" fill="currentColor"/><circle cx="4" cy="12" r="1" fill="currentColor"/><circle cx="4" cy="18" r="1" fill="currentColor"/></svg>),
+  connections: (p: IP) => (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M9.5 14.5l5-5"/><path d="M8 11l-2.5 2.5a4 4 0 0 0 5.5 5.5L13.5 16.5M16 13l2.5-2.5a4 4 0 0 0-5.5-5.5L10.5 7.5"/></svg>),
   settings: (p: IP) => (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" {...p}><circle cx="12" cy="12" r="3.2"/><path d="M12 2.8v3.4M12 17.8v3.4M2.8 12h3.4M17.8 12h3.4M5.2 5.2l2.4 2.4M16.4 16.4l2.4 2.4M18.8 5.2l-2.4 2.4M7.6 16.4l-2.4 2.4"/></svg>),
   pause: (p: IP) => (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" {...p}><path d="M9 5v14M15 5v14"/></svg>),
   play: (p: IP) => (<svg viewBox="0 0 24 24" fill="currentColor" {...p}><path d="M8.5 5.4v13.2c0 1 1.1 1.6 2 1.1l10-6.6c.8-.5.8-1.7 0-2.2l-10-6.6c-.9-.5-2 .1-2 1.1z"/></svg>),
@@ -34,11 +36,13 @@ const NAV: { group: string; items: { href: string; label: string; icon: keyof ty
   ]},
   { group: "Trade", items: [
     { href: "/strategies", label: "Strategies", icon: "strategies" },
-    { href: "/positions", label: "Positions & orders", icon: "positions" },
+    { href: "/positions", label: "Positions", icon: "positions" },
+    { href: "/positions#orders", label: "Orders", icon: "orders" },
   ]},
   { group: "System", items: [
     { href: "/alerts", label: "Alerts", icon: "alerts", badge: 2 },
     { href: "/audit-log", label: "Audit log", icon: "audit" },
+    { href: "/settings#api-connections", label: "API connections", icon: "connections" },
     { href: "/settings", label: "Settings", icon: "settings" },
   ]},
 ];
@@ -157,7 +161,7 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
               <div className="section-label px-2">{group.group}</div>
               <ul className="mt-1.5 space-y-1">
                 {group.items.map((item) => {
-                  const active = pathname === item.href || (item.href === "/positions" && pathname.startsWith("/positions"));
+                  const bareHref = item.href.split("#")[0]; const active = pathname === bareHref && !item.href.includes("#") || (item.href === "/positions" && pathname.startsWith("/positions"));
                   const Icon = I[item.icon];
                   return (
                     <li key={item.href}>
