@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+.env
+.env.local
+.vercel
+worker/.venv/
+worker/logs/*.jsonl
+!worker/logs/.gitkeep
+__pycache__/
+data/activations.jsonl

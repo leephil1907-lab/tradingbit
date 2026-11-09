@@ -1,0 +1,109 @@
+// Phase 2 schema — NOT required to build or run the paper product today.
+// Money movement stays in the existing PRIMEVEST ledger tables; bot tables
+// reference it and never shadow it. Switch provider to postgresql with your
+// Render/Supabase connection string when you activate Phase 2.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum BotMode {
+  PAPER
+  SHADOW
+  LIVE_MANUAL
+}
+
+model TradingBot {
+  id        String       @id @default(cuid())
+  name      String
+  mode      BotMode      @default(PAPER)
+  config    Json
+  enabled   Boolean      @default(false)
+  createdAt DateTime     @default(now())
+  positions BotPosition[]
+  fills     BotFill[]
+  decisions BotDecision[]
+}
+
+model BotPosition {
+  id             String     @id @default(cuid())
+  botId          String
+  bot            TradingBot @relation(fields: [botId], references: [id])
+  token          String
+  chain          String
+  entryPrice     Decimal    @db.Decimal(30, 18)
+  qty            Decimal    @db.Decimal(30, 18)
+  costBasis      Decimal    @db.Decimal(30, 12)
+  partialsTaken  Int        @default(0)
+  peakPrice      Decimal    @db.Decimal(30, 18)
+  status         String     @default("OPEN") // OPEN | CLOSED
+  openedAt       DateTime   @default(now())
+  closedAt       DateTime?
+  fills          BotFill[]
+
+  @@index([token])
+  @@index([botId, status])
+}
+
+model BotFill {
+  id         String      @id @default(cuid())
+  botId      String
+  bot        TradingBot  @relation(fields: [botId], references: [id])
+  positionId String
+  position   BotPosition @relation(fields: [positionId], references: [id])
+  side       String // BUY | SELL | PARTIAL_SELL
+  qty        Decimal     @db.Decimal(30, 18)
+  price      Decimal     @db.Decimal(30, 18)
+  fee        Decimal     @db.Decimal(30, 12) @default(0)
+  pnl        Decimal?    @db.Decimal(30, 12)
+  reason     String
+  exitKind   String?
+  createdAt  DateTime    @default(now())
+
+  @@index([positionId])
+  @@index([botId, createdAt])
+}
+
+model BotDecision {
+  id        String     @id @default(cuid())
+  botId     String
+  bot       TradingBot @relation(fields: [botId], references: [id])
+  ts        DateTime   @default(now())
+  event     String // BUY | SELL | NO_CONSENSUS | BLOCK | AGENT_ERROR ...
+  token     String
+  reasons   String
+  agents    String[]
+  payload   Json
+
+  @@index([botId, ts])
+}
+
+model TrackSnapshot {
+  id          String   @id @default(cuid())
+  botId       String
+  equity      Decimal  @db.Decimal(30, 12)
+  realizedPnl Decimal  @db.Decimal(30, 12)
+  fees        Decimal  @db.Decimal(30, 12) @default(0)
+  takenAt     DateTime @default(now())
+
+  @@index([botId, takenAt])
+}
+
+model BotActivation {
+  id                  String   @id @default(cuid())
+  userId              String
+  botId               String
+  mode                BotMode  @default(PAPER)
+  disclosuresVersion  String
+  acceptedAt          DateTime @default(now())
+  approvedByStaffId   String?
+  status              String   @default("PENDING_REVIEW") // PENDING_REVIEW | APPROVED | REJECTED | ACTIVE
+
+  @@index([userId])
+  @@index([status])
+}

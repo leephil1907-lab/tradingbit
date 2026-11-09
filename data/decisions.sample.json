@@ -1,0 +1,113 @@
+{
+  "note": "Sample decision log entries from the accelerated 24h PAPER run that produced track-record.json (seed 42). Illustrative of the audit format, not a promise of outcomes.",
+  "entries": [
+    {
+      "ts": "2026-11-09T02:49:20.333064+00:00",
+      "event": "PARTIAL_SELL",
+      "token": "7W2pkAFEn3z5dkyayq7YYDsBS9UYJQTFjmsn9dLVId",
+      "reasons": "Partial take-profit at 3.0x (+212.2%)",
+      "size_usd": 15.0,
+      "pnl": 18.9259,
+      "agent": "exit",
+      "chain": "bsc",
+      "fraction": 0.3,
+      "exit_kind": "partial_3x"
+    },
+    {
+      "ts": "2026-11-09T02:49:20.334453+00:00",
+      "event": "SELL",
+      "token": "7W2pkAFEn3z5dkyayq7YYDsBS9UYJQTFjmsn9dLVId",
+      "reasons": "Trailing stop: 15.1% off peak (289.3% PnL)",
+      "size_usd": 50.0,
+      "pnl": 60.2672,
+      "agent": "exit",
+      "chain": "bsc",
+      "fraction": 1.0,
+      "exit_kind": "trailing_stop"
+    },
+    {
+      "ts": "2026-11-09T02:49:20.359582+00:00",
+      "event": "BUY",
+      "token": "IUpkDyr7OSJoRu1XXdo0cZuzren68K4TunPFz46PDj",
+      "reasons": "scout:Volume spike 389% / $84,560 m5 + price +28.0% (liq $173,328) | whale:5 tracked smart wallets bought",
+      "size_usd": 50.0,
+      "pnl": 0.0,
+      "chain": "base",
+      "price": 0.01886353845963953,
+      "agents": [
+        "scout",
+        "whale"
+      ],
+      "avg_strength": 0.95,
+      "position_id": "723826fb"
+    },
+    {
+      "ts": "2026-11-09T02:49:20.363028+00:00",
+      "event": "SELL",
+      "token": "IUpkDyr7OSJoRu1XXdo0cZuzren68K4TunPFz46PDj",
+      "reasons": "Trailing stop: 9.7% off peak (50.7% PnL)",
+      "size_usd": 50.0,
+      "pnl": 24.8869,
+      "agent": "exit",
+      "chain": "base",
+      "fraction": 1.0,
+      "exit_kind": "trailing_stop"
+    },
+    {
+      "ts": "2026-11-09T02:49:20.386069+00:00",
+      "event": "BUY",
+      "token": "MM9VThX0k9tgLb7tKR69yz8TmeLS1OpgSXt2RMZhYK",
+      "reasons": "scout:Volume spike 311% / $56,333 m5 + price +39.7% (liq $76,118) | whale:6 tracked smart wallets bought",
+      "size_usd": 50.0,
+      "pnl": 0.0,
+      "chain": "sol",
+      "price": 0.004483256296691183,
+      "agents": [
+        "scout",
+        "whale"
+      ],
+      "avg_strength": 0.95,
+      "position_id": "6a8e4216"
+    },
+    {
+      "ts": "2026-11-09T02:49:20.386622+00:00",
+      "event": "SELL",
+      "token": "MM9VThX0k9tgLb7tKR69yz8TmeLS1OpgSXt2RMZhYK",
+      "reasons": "Stop loss hit (-9.0%)",
+      "size_usd": 50.0,
+      "pnl": -4.7594,
+      "agent": "exit",
+      "chain": "sol",
+      "fraction": 1.0,
+      "exit_kind": "stop_loss"
+    },
+    {
+      "ts": "2026-11-09T02:49:20.387652+00:00",
+      "event": "BUY",
+      "token": "IUpkDyr7OSJoRu1XXdo0cZuzren68K4TunPFz46PDj",
+      "reasons": "scout:Volume spike 322% / $113,929 m5 + price +25.8% (liq $155,739) | whale:5 tracked smart wallets bought",
+      "size_usd": 50.0,
+      "pnl": 0.0,
+      "chain": "base",
+      "price": 0.12093206866992308,
+      "agents": [
+        "scout",
+        "whale"
+      ],
+      "avg_strength": 0.95,
+      "position_id": "97367feb"
+    },
+    {
+      "ts": "2026-11-09T02:49:20.388335+00:00",
+      "event": "SELL",
+      "token": "IUpkDyr7OSJoRu1XXdo0cZuzren68K4TunPFz46PDj",
+      "reasons": "Stop loss hit (-13.6%)",
+      "size_usd": 50.0,
+      "pnl": -7.0643,
+      "agent": "exit",
+      "chain": "base",
+      "fraction": 1.0,
+      "exit_kind": "stop_loss"
+    }
+  ]
+}

@@ -1,0 +1,341 @@
+{
+  "meta": {
+    "mode": "PAPER",
+    "generated_at": "2026-11-09T02:49:20.401632+00:00",
+    "seed": 42,
+    "simulated_hours": 24,
+    "market_data": "Live DexScreener marks at generation time + seeded synthetic regimes (mock_feed)",
+    "fee_pct_per_side": 0.3,
+    "initial_balance": 500.0,
+    "min_agreeing_agents": 2,
+    "disclaimer": "Paper-trading results on a simulated and partially live-marked feed. Not indicative of live performance. No real orders are placed or settled by this bot. Trading volatile assets carries substantial risk of loss."
+  },
+  "summary": {
+    "final_equity": 784.61,
+    "total_pnl": 284.61,
+    "total_pnl_pct": 56.92,
+    "realized_pnl": 284.61,
+    "fees_paid": 2.96,
+    "closed_trades": 7,
+    "sell_fills": 12,
+    "win_rate_pct": 71.4,
+    "max_drawdown_pct": 1.48,
+    "open_positions": 0,
+    "best_trade_pnl": 99.91,
+    "worst_trade_pnl": -7.06
+  },
+  "equity_curve": [
+    {
+      "hour": 0,
+      "equity": 500.0
+    },
+    {
+      "hour": 1,
+      "equity": 547.69
+    },
+    {
+      "hour": 2,
+      "equity": 567.55
+    },
+    {
+      "hour": 3,
+      "equity": 567.55
+    },
+    {
+      "hour": 4,
+      "equity": 609.65
+    },
+    {
+      "hour": 5,
+      "equity": 671.87
+    },
+    {
+      "hour": 6,
+      "equity": 673.96
+    },
+    {
+      "hour": 7,
+      "equity": 755.64
+    },
+    {
+      "hour": 8,
+      "equity": 771.55
+    },
+    {
+      "hour": 9,
+      "equity": 771.55
+    },
+    {
+      "hour": 10,
+      "equity": 771.55
+    },
+    {
+      "hour": 11,
+      "equity": 771.55
+    },
+    {
+      "hour": 12,
+      "equity": 771.55
+    },
+    {
+      "hour": 13,
+      "equity": 783.32
+    },
+    {
+      "hour": 14,
+      "equity": 796.43
+    },
+    {
+      "hour": 15,
+      "equity": 796.43
+    },
+    {
+      "hour": 16,
+      "equity": 796.43
+    },
+    {
+      "hour": 17,
+      "equity": 796.43
+    },
+    {
+      "hour": 18,
+      "equity": 796.43
+    },
+    {
+      "hour": 19,
+      "equity": 796.43
+    },
+    {
+      "hour": 20,
+      "equity": 791.67
+    },
+    {
+      "hour": 21,
+      "equity": 784.61
+    },
+    {
+      "hour": 22,
+      "equity": 784.61
+    },
+    {
+      "hour": 23,
+      "equity": 784.61
+    },
+    {
+      "hour": 24,
+      "equity": 784.61
+    }
+  ],
+  "closed_trades": [
+    {
+      "token": "IUpkDyr7OS\u2026",
+      "chain": "base",
+      "entry_price": 0.003487853347552169,
+      "exit_price": 0.009094329066648754,
+      "size_usd": 50.0,
+      "pnl": 67.55,
+      "reason": "Trailing stop: 8.5% off peak (160.7% PnL)",
+      "partials_taken": 1,
+      "closed_at": "2026-11-09T02:49:20.310446+00:00"
+    },
+    {
+      "token": "HpAF9djTrf\u2026",
+      "chain": "sol",
+      "entry_price": 0.005368027246290011,
+      "exit_price": 0.015819921730232535,
+      "size_usd": 50.0,
+      "pnl": 85.02,
+      "reason": "Trailing stop: 14.9% off peak (194.7% PnL)",
+      "partials_taken": 2,
+      "closed_at": "2026-11-09T02:49:20.322399+00:00"
+    },
+    {
+      "token": "3Ot1OGMmjx\u2026",
+      "chain": "bsc",
+      "entry_price": 0.004527347372198077,
+      "exit_price": 0.0062918430177439704,
+      "size_usd": 50.0,
+      "pnl": 19.07,
+      "reason": "Trailing stop: 9.5% off peak (39.0% PnL)",
+      "partials_taken": 0,
+      "closed_at": "2026-11-09T02:49:20.330360+00:00"
+    },
+    {
+      "token": "7W2pkAFEn3\u2026",
+      "chain": "bsc",
+      "entry_price": 0.005933644917454822,
+      "exit_price": 0.023100816358026764,
+      "size_usd": 50.0,
+      "pnl": 99.91,
+      "reason": "Trailing stop: 15.1% off peak (289.3% PnL)",
+      "partials_taken": 2,
+      "closed_at": "2026-11-09T02:49:20.334447+00:00"
+    },
+    {
+      "token": "IUpkDyr7OS\u2026",
+      "chain": "base",
+      "entry_price": 0.01886353845963953,
+      "exit_price": 0.028422934848605665,
+      "size_usd": 50.0,
+      "pnl": 24.89,
+      "reason": "Trailing stop: 9.7% off peak (50.7% PnL)",
+      "partials_taken": 0,
+      "closed_at": "2026-11-09T02:49:20.363024+00:00"
+    },
+    {
+      "token": "MM9VThX0k9\u2026",
+      "chain": "sol",
+      "entry_price": 0.004483256296691183,
+      "exit_price": 0.004080952954383657,
+      "size_usd": 50.0,
+      "pnl": -4.76,
+      "reason": "Stop loss hit (-9.0%)",
+      "partials_taken": 0,
+      "closed_at": "2026-11-09T02:49:20.386618+00:00"
+    },
+    {
+      "token": "IUpkDyr7OS\u2026",
+      "chain": "base",
+      "entry_price": 0.12093206866992308,
+      "exit_price": 0.10447200999408586,
+      "size_usd": 50.0,
+      "pnl": -7.06,
+      "reason": "Stop loss hit (-13.6%)",
+      "partials_taken": 0,
+      "closed_at": "2026-11-09T02:49:20.388332+00:00"
+    }
+  ],
+  "seed_sweep": {
+    "note": "20 independent accelerated 24h simulations (seeds 1-20), mock-feed only, same parameters as the canonical run. Synthetic data; not a prediction of live results. Published so the reader sees losing runs too \u2014 not just a favourable seed.",
+    "runs": [
+      {
+        "seed": 1,
+        "pnl_pct": 78.02,
+        "closed_trades": 9,
+        "win_rate_pct": 77.8
+      },
+      {
+        "seed": 2,
+        "pnl_pct": 144.18,
+        "closed_trades": 6,
+        "win_rate_pct": 100.0
+      },
+      {
+        "seed": 3,
+        "pnl_pct": 141.95,
+        "closed_trades": 9,
+        "win_rate_pct": 66.7
+      },
+      {
+        "seed": 4,
+        "pnl_pct": 5.87,
+        "closed_trades": 2,
+        "win_rate_pct": 50.0
+      },
+      {
+        "seed": 5,
+        "pnl_pct": 95.15,
+        "closed_trades": 6,
+        "win_rate_pct": 100.0
+      },
+      {
+        "seed": 6,
+        "pnl_pct": 129.46,
+        "closed_trades": 9,
+        "win_rate_pct": 77.8
+      },
+      {
+        "seed": 7,
+        "pnl_pct": 23.49,
+        "closed_trades": 3,
+        "win_rate_pct": 66.7
+      },
+      {
+        "seed": 8,
+        "pnl_pct": 139.53,
+        "closed_trades": 5,
+        "win_rate_pct": 60.0
+      },
+      {
+        "seed": 9,
+        "pnl_pct": 21.39,
+        "closed_trades": 4,
+        "win_rate_pct": 50.0
+      },
+      {
+        "seed": 10,
+        "pnl_pct": 43.54,
+        "closed_trades": 5,
+        "win_rate_pct": 60.0
+      },
+      {
+        "seed": 11,
+        "pnl_pct": 7.56,
+        "closed_trades": 4,
+        "win_rate_pct": 25.0
+      },
+      {
+        "seed": 12,
+        "pnl_pct": 85.6,
+        "closed_trades": 5,
+        "win_rate_pct": 100.0
+      },
+      {
+        "seed": 13,
+        "pnl_pct": 61.25,
+        "closed_trades": 5,
+        "win_rate_pct": 100.0
+      },
+      {
+        "seed": 14,
+        "pnl_pct": 82.97,
+        "closed_trades": 6,
+        "win_rate_pct": 83.3
+      },
+      {
+        "seed": 15,
+        "pnl_pct": 106.77,
+        "closed_trades": 5,
+        "win_rate_pct": 80.0
+      },
+      {
+        "seed": 16,
+        "pnl_pct": 32.38,
+        "closed_trades": 7,
+        "win_rate_pct": 42.9
+      },
+      {
+        "seed": 17,
+        "pnl_pct": 11.38,
+        "closed_trades": 6,
+        "win_rate_pct": 33.3
+      },
+      {
+        "seed": 18,
+        "pnl_pct": 41.4,
+        "closed_trades": 5,
+        "win_rate_pct": 100.0
+      },
+      {
+        "seed": 19,
+        "pnl_pct": 21.49,
+        "closed_trades": 5,
+        "win_rate_pct": 60.0
+      },
+      {
+        "seed": 20,
+        "pnl_pct": 151.72,
+        "closed_trades": 5,
+        "win_rate_pct": 100.0
+      }
+    ],
+    "aggregate": {
+      "mean_pnl_pct": 71.25,
+      "median_pnl_pct": 69.63,
+      "best_pnl_pct": 151.72,
+      "worst_pnl_pct": 5.87,
+      "profitable_runs": 20,
+      "total_runs": 20
+    }
+  }
+}
