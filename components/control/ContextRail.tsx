@@ -3,21 +3,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useBot } from "@/components/shell/bot-context";
+import Sparkline from "./Sparkline";
 
 interface Quote { symbol: string; name: string; price: number; change24h: number; spark: number[] }
-
-function Sparkline({ data, positive }: { data: number[]; positive: boolean }) {
-  if (!data.length) return null;
-  const W = 96, H = 30;
-  const min = Math.min(...data), max = Math.max(...data);
-  const span = Math.max(max - min, 1e-9);
-  const pts = data.map((v, i) => `${((i / (data.length - 1)) * W).toFixed(1)},${(H - 2 - ((v - min) / span) * (H - 4)).toFixed(1)}`).join(" ");
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} aria-hidden="true">
-      <polyline points={pts} fill="none" stroke={positive ? "var(--up)" : "var(--down)"} strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" opacity="0.9" />
-    </svg>
-  );
-}
 
 function fmtPrice(p: number) {
   return p >= 1000 ? p.toLocaleString("en-US", { maximumFractionDigits: 2 }) : p.toLocaleString("en-US", { maximumFractionDigits: 3 });

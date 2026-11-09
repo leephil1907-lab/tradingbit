@@ -3,6 +3,7 @@ import Link from "next/link";
 import { loadTrackRecord } from "@/lib/record";
 import { fmtSignedUsd } from "@/lib/format";
 import PositionsClient from "./PositionsClient";
+import Watchlist from "@/components/control/Watchlist";
 
 export const metadata: Metadata = { title: "Positions & orders · Control room" };
 
@@ -20,10 +21,13 @@ export default function PositionsPage() {
         <Link href="/strategies" className="btn btn-ghost !py-2 !text-[10px]">Strategy setup →</Link>
       </div>
 
-      {/* Chart — the centerpiece */}
-      <section aria-label="Price chart" className="panel-flat mt-4 p-4">
-        <PositionsClient closes={closes} />
-      </section>
+      {/* Chart — the centerpiece · watchlist beside it */}
+      <div className="mt-4 grid gap-4 lg:grid-cols-12">
+        <section aria-label="Price chart" className="panel-flat p-4 lg:col-span-8">
+          <PositionsClient closes={closes} />
+        </section>
+        <Watchlist className="lg:col-span-4" />
+      </div>
 
       {/* Blotter */}
       <section id="orders" aria-label="Order blotter" className="panel-flat mt-4 overflow-hidden">

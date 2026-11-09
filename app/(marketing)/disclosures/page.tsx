@@ -30,6 +30,7 @@ export default function DisclosuresPage() {
       <div className="panel-flat mt-10 p-6 sm:p-8">
         <Section n="1" title="Nature of this product">
           <p>PRIMEVEST Trading Bot is a research and simulation product. In its current release it places <strong>no real orders</strong>, holds no client assets, and executes no trades on any venue. Fills shown in the dashboard and track record are simulated at mark prices with modeled fees.</p>
+          <p>This product is designed so you never need to hand it funds to try it: there is <strong>no deposit, no withdrawal, and no custody</strong> in paper mode. If any future release introduces manual desk execution, settlement will happen through the PRIMEVEST ledger with your explicit, recorded approval per order — never silently, never autonomously.</p>
           <p>Future releases may introduce <strong>manual desk execution</strong>: signals are reviewed by a human PRIMEVEST desk who may act at their discretion, and outcomes are settled through the PRIMEVEST ledger. No future release places autonomous orders with client funds.</p>
         </Section>
         <Section n="2" title="Simulated results are not live results">

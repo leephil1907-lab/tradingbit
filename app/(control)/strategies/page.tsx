@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useBot } from "@/components/shell/bot-context";
 import ConfirmDialog from "@/components/control/ConfirmDialog";
 import ActivationForm from "@/components/ActivationForm";
+import PreTradeTicket from "@/components/control/PreTradeTicket";
 
 const EQUITY = 784.61; // paper book from the seeded record — labeled in the UI
 
@@ -222,6 +223,14 @@ export default function StrategiesPage() {
               <p className="text-center font-mono text-[7px] uppercase tracking-[0.18em] text-faint">Live mode locked by policy · Phase 2 gate required</p>
             </div>
           </div>
+          <PreTradeTicket
+            symbol={symbol}
+            sizeUsd={sizeUsd}
+            slPct={f.sl}
+            tp1={f.tp2}
+            tp1Pct={f.tp2Pct}
+            equity={EQUITY}
+          />
         </div>
       </div>
 
@@ -248,6 +257,7 @@ export default function StrategiesPage() {
               {step === 2 && (
                 <>
                   <p className="text-warn">Live trading is disabled by PRIMEVEST policy in this release.</p>
+                  <p className="mt-1.5 text-[10px] leading-4 text-faint">If live trading ships later, availability will vary by jurisdiction and tokenized/perpetual products may be restricted where you live. Nothing in this console is investment advice.</p>
                   <p className="mt-1.5">Activate the paper desk instead — free, virtual $500, same engine:</p>
                   <div className="mt-3"><ActivationForm /></div>
                 </>
