@@ -11,3 +11,5 @@ worker/logs/*.jsonl
 !worker/logs/.gitkeep
 __pycache__/
 data/activations.jsonl
+
+data/audit.jsonl

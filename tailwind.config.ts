@@ -5,14 +5,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        obsidian: { 950: "#0a0908", 900: "#0d0b08", 850: "#100e0c", 800: "#141110", 750: "#1a1714", 700: "#211d19" },
-        gold: { 300: "#f0d9a8", 400: "#dfc088", 500: "#cfa95f", 600: "#b8924a", 700: "#8a6a2f", 800: "#32291d" },
-        paper: "#eef1f6",
-        muted: "#c9c2b4",
-        faint: "#9ca3af",
-        up: "#2ee6a8",
-        down: "#ff5b6e",
-        warn: "#ffb020",
+        // everything references CSS variables so [data-theme='light'] can re-theme globally
+        obsidian: { 950: "var(--obsidian-950)", 900: "var(--obsidian-900)", 850: "var(--obsidian-850)", 800: "var(--obsidian-800)", 750: "var(--obsidian-750)", 700: "var(--obsidian-700)" },
+        gold: { 300: "var(--gold-300)", 400: "var(--gold-400)", 500: "var(--gold-500)", 600: "var(--gold-600)", 700: "var(--gold-700)", 800: "var(--gold-800)" },
+        paper: "var(--paper)",
+        muted: "var(--muted)",
+        faint: "var(--faint)",
+        up: "var(--up)",
+        down: "var(--down)",
+        warn: "var(--warn)",
       },
       fontFamily: {
         display: ["var(--font-display)", "Georgia", "serif"],

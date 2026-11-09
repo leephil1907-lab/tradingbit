@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Ticker from "@/components/Ticker";
 
 const display = Playfair_Display({ subsets: ["latin"], variable: "--font-display", display: "swap" });
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
@@ -30,18 +27,13 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#0a0908",
-  colorScheme: "dark",
+  colorScheme: "dark light",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
-      <body className="min-h-dvh bg-obsidian-950 text-paper antialiased">
-        <Header />
-        <Ticker />
-        <main id="main-content">{children}</main>
-        <Footer />
-      </body>
+    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+      <body className="min-h-dvh bg-obsidian-950 text-paper antialiased">{children}</body>
     </html>
   );
 }

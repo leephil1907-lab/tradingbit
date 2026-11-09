@@ -53,23 +53,45 @@ Logo: `app/icon.svg` = the PRIMEVEST voxel-P on obsidian (`public/brand/icon.svg
 ## Architecture
 
 ```
-app/                     Next.js 15 (App Router) — public site + dashboard
-  page.tsx               Landing (hero, consensus diagram, agents, honest record CTA)
-  track-record/          Public paper ledger — reads data/track-record.json
-  dashboard/             Virtual $500 desk + activation form (paper only)
-  agents/                Full per-agent specs and the Core contract
-  disclosures/           Risk & legal draft (pending counsel)
-  staff/                 Desk console — design preview, locked, no actions
-  api/market|health|activation/
-components/              Header/Footer/Ticker/StatTile/EquityCurve/AgentGlyph
-lib/record.ts            Typed loader for the JSON snapshot (render-or-empty-state)
+app/
+  (marketing)/           Public front door (Header/Ticker/Footer chrome)
+    page.tsx             Landing · track-record/ · agents/ · disclosures/ · staff/
+  (control)/             Control room — the operator console (BotProvider shell, noindex)
+    layout.tsx           Loads record + renders sidebar/bottom-nav shell
+    dashboard/           Status card (BOT STATUS, paper badge, equity, P&L, open risk,
+                         daily-loss meter, feed heartbeat) · Close-all (typed) · kill switch
+    strategies/          Full parameter surface — everything loss-causing is visible and
+                         validated; plain-English preview; 3-step activation (live locked)
+    positions/           Lightweight-charts candles (Binance klines → CoinGecko fallback),
+                         instrument/timeframe tabs, honest blotter of closed fills
+    performance/         PF/expectancy/avg W-L, fees, max DD, best/worst, CSV export
+    risk/                Daily-loss allowance meter (80% warn marker), active rules,
+                         triggered ledger, kill-switch history
+    alerts/              Tiered action/critical/warning/info with what/why/next steps
+    settings/            API connections with live probes, notification switches,
+                         permissions matrix, danger zone (typed RESET)
+    audit-log/           Merged seed+runtime JSONL, PB- refs, force-dynamic
+  api/                   market (CoinGecko, 45s cache) · health · activation · audit (GET/POST)
+                         strategy (validate+log) · performance.csv · activation
+components/
+  shell/                 ControlShell (sidebar, mobile bottom bar, kill switch, halted
+                         banner, theme toggle) · bot-context (status, heartbeat, audit)
+  control/               ConfirmDialog (typed friction + progress) · ContextRail · PriceChart
+lib/                     record.ts (typed snapshot loader) · format.ts (USD) · audit.ts (JSONL)
 worker/                  Python engine — agents, consensus coordinator, paper engine,
-                         fees, partial take-profits, trailing stop, JSONL decision log,
-                         live DexScreener feed (optional), mock seeded feed (default sim)
-data/                    track-record.json (generated) · decisions.sample.json
-prisma/schema.prisma     Phase 2 data model (bot tables complement the PRIMEVEST ledger)
+                         fees, partial take-profits, trailing stop, JSONL decision log
+data/                    track-record.json · decisions.sample.json · audit.seed.jsonl
+                         (runtime audit.jsonl is gitignored)
 render.yaml              Render blueprint: web service now; worker cron scaffolded (Phase 2)
 ```
+
+### Control room (operator console)
+
+- **Three-zone desktop** — sidebar (fixed nav, equity + session P&L + one-click pause/resume + **pinned kill switch**) | content | context rail (live quotes, feed health, alerts) on Dashboard/Performance/Risk only. **Mobile**: monitoring + emergency control only — bottom bar (Dashboard/Positions/Orders/Alerts/Settings), ≥44px targets, no dense tables.
+- **Dark default, light optional** — every color flows through CSS vars; `[data-theme='light']` re-declares them; toggle pinned in the sidebar footer (persisted in `localStorage`).
+- **Friction ladder** — Pause = 1 click; Close all = type `CLOSE ALL`; Kill switch = type `KILL SWITCH` (halts entries, never unwinds, sidebar-pinned); risk-limit changes confirm + audit; every state change is logged with a `PB-` reference.
+- **Honesty** — all figures are the seeded paper run (`data/track-record.json`, seed 42: $500.00 → $784.61, +56.92%, 5W/2L, max DD 1.48%), labeled paper everywhere; empty states are real (book is flat).
+- **Live mode does not exist** in this build — the activation wizard's final step is disabled by policy; paper activation is one click.
 
 Worker and web are deliberately decoupled: the worker produces an audit-grade JSON artifact; the web renders it. In Phase 2 both read/write the shared Postgres (schema included), with the bot worker as a separate Render service.
 

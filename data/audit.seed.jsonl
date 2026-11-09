@@ -1,0 +1,6 @@
+{"ref":"PB-SYSTEM00","ts":"2026-11-09T02:30:00Z","actor":"system","action":"SYSTEM_BOOT","detail":"Instance booted in PAPER mode — no real-money execution path exists in this build"}
+{"ref":"PB-SEED0001","ts":"2026-11-09T02:31:00Z","actor":"system","action":"FEED_PROBE","detail":"DexScreener + CoinGecko reachable; public endpoints with 45s cache"}
+{"ref":"PB-SEED0002","ts":"2026-11-09T02:47:00Z","actor":"system","action":"RECORD_GENERATED","detail":"Paper track record generated: seed=42 hours=24 fees=0.3%/side consensus=2"}
+{"ref":"PB-SEED0003","ts":"2026-11-09T02:47:30Z","actor":"system","action":"RISK_RULES_ARMED","detail":"HARD_SL=-6.0% PARTIAL_2X=40%@2.0x PARTIAL_3X=30%@3.0x TRAIL=8.0% DAILY_LOSS=3.0%"}
+{"ref":"PB-SEED0004","ts":"2026-11-09T02:48:00Z","actor":"system","action":"KILL_SWITCH_ARMED","detail":"Sidebar-pinned kill switch verified — typed confirmation required, halts new entries only"}
+{"ref":"PB-SEED0005","ts":"2026-11-09T02:48:30Z","actor":"system","action":"LIVE_MODE_LOCKED","detail":"Live activation disabled by policy in this release; Phase 2 gate checklist printed on /staff"}

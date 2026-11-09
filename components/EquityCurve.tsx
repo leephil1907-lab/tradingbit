@@ -21,18 +21,18 @@ export default function EquityCurve({
          aria-label={`Paper account equity curve from ${fmtUsd(values[0]!)} to ${fmtUsd(last.equity)} over ${points.length - 1} simulated hours`}>
       <defs>
         <linearGradient id="eq-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#dfc088" stopOpacity="0.32" />
-          <stop offset="100%" stopColor="#dfc088" stopOpacity="0.02" />
+          <stop offset="0%" stopColor="var(--gold-400)" stopOpacity="0.32" />
+          <stop offset="100%" stopColor="var(--gold-400)" stopOpacity="0.02" />
         </linearGradient>
       </defs>
       {gridYs.map((gy, i) => (
         <line key={i} x1={PAD.l} x2={W - PAD.r} y1={gy} y2={gy} stroke="rgba(223,192,138,0.08)" strokeDasharray="3 5" />
       ))}
       <path d={area} fill="url(#eq-fill)" />
-      <path d={line} fill="none" stroke="#dfc088" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
-      <circle cx={x(points.length - 1)} cy={y(last.equity)} r="3.2" fill="#dfc088" />
-      <text x={PAD.l} y={H - 6} fill="#9ca3af" fontSize="10" fontFamily="var(--font-mono), monospace">+0h</text>
-      <text x={W - PAD.r} y={H - 6} textAnchor="end" fill="#9ca3af" fontSize="10" fontFamily="var(--font-mono), monospace">+{points.length - 1}h</text>
+      <path d={line} fill="none" stroke="var(--gold-400)" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+      <circle cx={x(points.length - 1)} cy={y(last.equity)} r="3.2" fill="var(--gold-400)" />
+      <text x={PAD.l} y={H - 6} fill="var(--text-faint)" fontSize="10" fontFamily="var(--font-mono), monospace">+0h</text>
+      <text x={W - PAD.r} y={H - 6} textAnchor="end" fill="var(--text-faint)" fontSize="10" fontFamily="var(--font-mono), monospace">+{points.length - 1}h</text>
     </svg>
   );
 }
