@@ -16,12 +16,14 @@ class PaperEngineTests(unittest.TestCase):
         self.assertAlmostEqual(position.qty, 4.95)
         self.assertAlmostEqual(engine.total_fees, 0.5)
 
-    def test_rejects_invalid_price_and_oversized_position(self):
+    def test_rejects_invalid_price_and_caps_oversized_position(self):
         engine = PaperEngine(initial=100, max_pos=50)
         self.assertIsNone(engine.open("TOKEN", "sol", 0, 10))
-        self.assertIsNone(engine.open("TOKEN", "sol", 10, 51))
-        self.assertEqual(engine.balance, 100)
-        self.assertEqual(engine.positions, {})
+        position = engine.open("TOKEN", "sol", 10, 51)
+        self.assertIsNotNone(position)
+        self.assertEqual(position.size_usd, 50)
+        self.assertEqual(engine.balance, 50)
+        self.assertEqual(len(engine.positions), 1)
 
     def test_partial_and_final_close_preserve_cost_basis(self):
         engine = PaperEngine(initial=100, max_pos=50, fee_pct=1)
