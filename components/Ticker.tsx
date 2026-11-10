@@ -5,12 +5,6 @@ import { useEffect, useState } from "react";
 interface Quote { symbol: string; name: string; price: number; change24h: number }
 interface MarketResp { ok: boolean; quotes?: Quote[] }
 
-const STATIC_FALLBACK: Quote[] = [
-  { symbol: "BTC", name: "Bitcoin", price: 75444.7, change24h: 0.8 },
-  { symbol: "ETH", name: "Ethereum", price: 2155.0, change24h: 1.35 },
-  { symbol: "SOL", name: "Solana", price: 88.23, change24h: 1.96 },
-];
-
 function fmt(n: number) {
   return n >= 1000 ? n.toLocaleString("en-US", { maximumFractionDigits: 2 }) : n.toLocaleString("en-US", { maximumFractionDigits: 4 });
 }
@@ -30,15 +24,15 @@ export default function Ticker() {
           setLive(true);
           return;
         }
-      } catch { /* fall through to static list */ }
-      if (!cancelled) { setQuotes(STATIC_FALLBACK); setLive(false); }
+      } catch { /* keep feed unavailable; never invent a market mark */ }
+      if (!cancelled) { setQuotes([]); setLive(false); }
     };
     load();
     const id = setInterval(load, 60_000);
     return () => { cancelled = true; clearInterval(id); };
   }, []);
 
-  const items = quotes ?? STATIC_FALLBACK;
+  const items = quotes ?? [];
   const doubled = [...items, ...items];
 
   return (
@@ -55,7 +49,7 @@ export default function Ticker() {
           );
         })}
       </div>
-      <span className="sr-only">{live ? "Live market prices via DexScreener" : "Market prices unavailable — showing reference snapshot"}</span>
+      <span className="sr-only">{live ? "Live market prices via CoinGecko" : "Market prices unavailable"}</span>
     </div>
   );
 }

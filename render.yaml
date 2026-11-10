@@ -1,10 +1,10 @@
-# Render Blueprint for PRIMEVEST Trading Bot (Phase 0/1).
+# Render Blueprint for PrimeVest Atlas (Phase 0/1).
 # Web service is live today (paper product). The worker cron is intentionally
 # commented until Phase 2 wires fills/decisions to Postgres — otherwise the web
 # service would keep serving a stale committed snapshot with no way to update it.
 services:
   - type: web
-    name: primevest-trading-bot
+    name: primevest-atlas
     runtime: node
     plan: starter
     buildCommand: npm ci && npm run build
@@ -14,13 +14,13 @@ services:
       - key: NODE_ENV
         value: production
       - key: NEXT_PUBLIC_PRIMEVEST_URL
-        value: https://primevest-web.onrender.com
+        value: https://vantabrokerage.vercel.app
       - key: PAPER_MODE
         value: "true"
 
   # --- Phase 2: daily regeneration of the public paper track record ---
   # - type: cron
-  #   name: primevest-bot-record
+  #   name: primevest-atlas-record
   #   runtime: python
   #   plan: starter
   #   schedule: "15 0 * * *"

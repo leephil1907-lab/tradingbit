@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode, type SVGProps } from "react";
-import { BotProvider, useBot, type BotStatus } from "./bot-context";
+import { BotProvider, useBot, type BotStatus, type SessionMode } from "./bot-context";
 import ConfirmDialog from "@/components/control/ConfirmDialog";
 import ContextRail from "@/components/control/ContextRail";
 
@@ -58,6 +58,30 @@ function StatusPill({ compact = false }: { compact?: boolean }) {
   );
 }
 
+function SessionSelector({ compact = false }: { compact?: boolean }) {
+  const { sessionMode, switchSessionMode } = useBot();
+  const options: { mode: SessionMode; label: string }[] = [
+    { mode: "demo", label: "Demo" },
+    { mode: "live-market", label: "Live market" },
+  ];
+  return (
+    <div className={`glass-panel rounded-xl p-1 ${compact ? "flex items-center gap-1" : "grid grid-cols-2 gap-1"}`}
+      role="group" aria-label="Trading session">
+      {options.map((option) => {
+        const active = sessionMode === option.mode;
+        return (
+          <button key={option.mode} type="button" onClick={() => void switchSessionMode(option.mode)}
+            aria-pressed={active}
+            className={`glass-control rounded-lg px-2.5 py-2 font-mono text-[9px] uppercase tracking-[0.12em] ${active ? "text-gold-300" : "text-faint hover:text-paper"}`}>
+            {option.label}
+          </button>
+        );
+      })}
+      {sessionMode === "live-market" ? <span className="sr-only">Read-only market monitoring. Live order execution is disabled.</span> : null}
+    </div>
+  );
+}
+
 function KillSwitch() {
   const { halt } = useBot();
   const [open, setOpen] = useState(false);
@@ -78,13 +102,13 @@ function KillSwitch() {
     window.setTimeout(async () => {
       window.clearInterval(id);
       setOpen(false); setBusy(false); setProgress(0);
-      await halt("Operator engaged EMERGENCY STOP — all entries blocked, open positions unaffected (paper)");
+      await halt("Emergency stop engaged from PrimeVest Atlas — all new entries blocked; open demo positions remain unchanged");
     }, 900);
   };
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className="ctl-btn ctl-btn-danger w-full" aria-label="Emergency stop — halt the bot immediately">
+      <button type="button" onClick={() => setOpen(true)} className="ctl-btn ctl-btn-danger w-full opacity-50" disabled title="Unavailable until the server-side control plane is connected" aria-label="Emergency stop unavailable — server control plane not connected">
         <I.skull width={14} height={14} /> Kill switch
       </button>
       <ConfirmDialog
@@ -106,11 +130,11 @@ function PauseResume() {
   const halted = status === "halted";
   const paused = status === "paused";
   return paused ? (
-    <button type="button" onClick={resume} disabled={halted} className="ctl-btn w-full" aria-label="Resume the bot">
+    <button type="button" onClick={resume} className="ctl-btn w-full opacity-50" disabled title="Unavailable until the server-side control plane is connected" aria-label="Resume unavailable — server control plane not connected">
       <I.play width={13} height={13} /> Resume bot
     </button>
   ) : (
-    <button type="button" onClick={pause} disabled={halted} className="ctl-btn ctl-btn-amber w-full" aria-label="Pause the bot — stops new entries, exits still run">
+    <button type="button" onClick={pause} className="ctl-btn ctl-btn-amber w-full opacity-50" disabled title="Unavailable until the server-side control plane is connected" aria-label="Pause unavailable — server control plane not connected">
       <I.pause width={13} height={13} /> Pause bot
     </button>
   );
@@ -139,20 +163,20 @@ function ThemeToggle() {
   );
 }
 
-function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNode; equity: string; pnl: string; alertsCount: number }) {
+function ShellInner({ children, equity, pnl }: { children: ReactNode; equity: string; pnl: string }) {
   const pathname = usePathname();
-  const { status } = useBot();
+  const { status, sessionMode } = useBot();
   const showRail = pathname === "/dashboard" || pathname === "/performance" || pathname === "/risk";
 
   return (
     <div className="flex min-h-dvh bg-obsidian-950 text-paper">
       {/* ───────── Desktop sidebar ───────── */}
       <aside className="sticky top-0 hidden h-dvh w-[15rem] shrink-0 flex-col border-r hairline bg-obsidian-900 md:flex" aria-label="Primary navigation">
-        <Link href="/" className="flex items-center gap-2.5 border-b hairline-soft px-4 py-4" aria-label="PRIMEVEST Trading Bot — overview">
+        <Link href="/" className="flex items-center gap-2.5 border-b hairline-soft px-4 py-4" aria-label="PrimeVest Atlas — overview">
           <Image src="/brand/icon.svg" alt="" width={30} height={30} />
           <span className="leading-none">
             <span className="block font-display text-[13px] font-semibold tracking-[0.2em]">PRIMEVEST</span>
-            <span className="mt-0.5 block font-mono text-[7px] tracking-[0.3em] text-gold-500">TRADING&nbsp;BOT</span>
+            <span className="mt-0.5 block font-mono text-[7px] tracking-[0.3em] text-gold-500">ATLAS</span>
           </span>
         </Link>
         <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-4">
@@ -180,16 +204,17 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
         {/* Fixed safety cluster — always one click to pause or stop */}
         <div className="border-t hairline px-3 py-3">
           <div className="flex items-center justify-between px-1">
-            <div><div className="section-label">Equity · paper</div><div className="num mt-0.5 text-sm text-gold-400">{equity}</div></div>
-            <div className="text-right"><div className="section-label">Session PnL</div><div className="num mt-0.5 text-sm text-up">{pnl}</div></div>
+            <div><div className="section-label">Account equity · snapshot</div><div className="num mt-0.5 text-sm text-gold-400">{equity}</div></div>
+            <div className="text-right"><div className="section-label">Recorded P&amp;L</div><div className="num mt-0.5 text-sm text-up">{pnl}</div></div>
           </div>
           <div className="mt-3 space-y-2">
-            <StatusPill />
+            <SessionSelector />
+            <div className="flex items-center justify-between gap-2"><StatusPill /><span className="font-mono text-[7px] uppercase tracking-[0.12em] text-faint">{sessionMode === "demo" ? "Virtual execution" : "Read-only · no orders"}</span></div>
             <PauseResume />
             <KillSwitch />
             <ThemeToggle />
           </div>
-          <p className="mt-2 px-1 text-center font-mono text-[7px] uppercase tracking-[0.2em] text-faint">Paper only · live locked by policy</p>
+          <p className="mt-2 px-1 text-center font-mono text-[7px] uppercase tracking-[0.2em] text-faint">Demo execution · live orders disabled</p>
         </div>
       </aside>
 
@@ -198,16 +223,19 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
         {/* Mobile top bar */}
         <div className="flex h-14 items-center justify-between border-b hairline bg-obsidian-900 px-4 md:hidden">
           <Link href="/" className="flex items-center gap-2"><Image src="/brand/icon.svg" alt="" width={22} height={22} /><span className="font-display text-[11px] font-semibold tracking-[0.18em]">PRIMEVEST</span></Link>
-          <StatusPill compact />
+          <div className="flex items-center gap-2"><SessionSelector compact /><StatusPill compact /></div>
         </div>
         {/* Halted banner — cannot be missed, cannot be dismissed without reset */}
+        {sessionMode === "live-market" ? (
+          <div role="status" className="border-b border-gold-500/25 bg-gold-500/5 px-4 py-2 text-center font-mono text-[9px] uppercase tracking-[0.14em] text-gold-300">Live market session · read-only monitoring · order execution disabled</div>
+        ) : null}
         {status === "halted" ? (
           <div role="alert" className="flex flex-wrap items-center justify-center gap-3 border-b border-down/40 bg-down/10 px-4 py-2 text-center">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-down">Kill switch engaged — all new entries blocked</span>
             <Link href="/settings" className="font-mono text-[9px] uppercase tracking-[0.18em] text-down underline underline-offset-2">Reset paper session in Settings →</Link>
           </div>
         ) : null}
-        <main className="min-w-0 flex-1 px-4 pb-20 pt-4 sm:px-5 md:pb-6 md:pt-5">{children}</main>
+        <main className="min-w-0 flex-1 px-4 pb-20 pt-4 sm:px-5 md:pb-6 md:pt-5"><div role="status" className="mb-4 rounded-lg border border-warn/30 bg-warn/5 px-3 py-2 font-mono text-[9px] uppercase leading-5 tracking-[0.12em] text-warn">Monitoring shell only · server-side bot controls and durable account state are not connected. Execution controls are disabled.</div>{children}</main>
       </div>
 
       {/* ───────── Context rail (monitoring screens) ───────── */}
@@ -236,10 +264,10 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
   );
 }
 
-export default function ControlShell({ children, equity, pnl, alertsCount }: { children: ReactNode; equity: string; pnl: string; alertsCount: number }) {
+export default function ControlShell({ children, equity, pnl }: { children: ReactNode; equity: string; pnl: string }) {
   return (
     <BotProvider>
-      <ShellInner equity={equity} pnl={pnl} alertsCount={alertsCount}>{children}</ShellInner>
+      <ShellInner equity={equity} pnl={pnl}>{children}</ShellInner>
     </BotProvider>
   );
 }

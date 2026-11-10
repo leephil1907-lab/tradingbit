@@ -3,9 +3,12 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 
 export type BotStatus = "paper" | "running" | "paused" | "halted";
+export type SessionMode = "demo" | "live-market";
 
 interface BotContextValue {
   status: BotStatus;
+  sessionMode: SessionMode;
+  switchSessionMode: (mode: SessionMode) => Promise<void>;
   statusLabel: string;
   statusTone: "paper" | "running" | "paused" | "halted";
   pause: () => Promise<void>;
@@ -43,10 +46,19 @@ async function postAudit(action: string, detail: string): Promise<string | null>
 
 export function BotProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<BotStatus>("paper");
+  const [sessionMode, setSessionMode] = useState<SessionMode>("demo");
   const [toast, setToast] = useState<string | null>(null);
   const [feedOk, setFeedOk] = useState<boolean | null>(null);
   const [heartbeatSeconds, setHeartbeatSeconds] = useState(0);
   const toastTimer = useRef<number | null>(null);
+
+  // Restore the selected session. Live-market mode is read-only; it never enables orders.
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("pv-session-mode");
+      if (saved === "demo" || saved === "live-market") setSessionMode(saved);
+    } catch { /* private mode */ }
+  }, []);
 
   // hydrate persisted status
   useEffect(() => {
@@ -67,19 +79,30 @@ export function BotProvider({ children }: { children: ReactNode }) {
     toastTimer.current = window.setTimeout(() => setToast(null), 4200);
   }, []);
 
+  const switchSessionMode = useCallback(async (mode: SessionMode) => {
+    if (mode === sessionMode) return;
+    setSessionMode(mode);
+    try { window.localStorage.setItem("pv-session-mode", mode); } catch { /* noop */ }
+    const detail = mode === "demo"
+      ? "Selected DEMO session. Virtual balances and simulated fills only."
+      : "Selected LIVE MARKET session. Market data monitoring only; live order execution is disabled.";
+    const ref = await postAudit("SESSION_MODE_CHANGED", detail);
+    notify(ref ? `${mode === "demo" ? "Demo" : "Live market"} session selected · logged ${ref}` : `${mode === "demo" ? "Demo" : "Live market"} session selected`);
+  }, [sessionMode, notify]);
+
   const audit = useCallback((action: string, detail: string) => postAudit(action, detail), []);
 
   const pause = useCallback(async () => {
     if (status === "halted") { notify("Bot is halted by kill switch — reset paper session to resume."); return; }
     persist("paused");
-    const ref = await postAudit("BOT_PAUSED", "Operator paused new entries (one-click control)");
+    const ref = await postAudit("BOT_PAUSED", "User paused new entries (one-click control)");
     notify(ref ? `Bot paused · logged ${ref}` : "Bot paused");
   }, [status, persist, notify]);
 
   const resume = useCallback(async () => {
     if (status === "halted") { notify("Bot is halted by kill switch — reset paper session to resume."); return; }
     persist("running");
-    const ref = await postAudit("BOT_RESUMED", "Operator resumed the paper bot");
+    const ref = await postAudit("BOT_RESUMED", "User resumed the demo bot");
     notify(ref ? `Bot resumed · logged ${ref}` : "Bot resumed");
   }, [status, persist, notify]);
 
@@ -123,7 +146,7 @@ export function BotProvider({ children }: { children: ReactNode }) {
   const meta = STATUS_META[status];
   return (
     <Ctx.Provider value={{
-      status, statusLabel: meta.label, statusTone: meta.tone,
+      status, statusLabel: meta.label, statusTone: meta.tone, sessionMode, switchSessionMode,
       pause, resume, halt, resetPaper, notify, audit,
       heartbeatSeconds, feedOk,
     }}>

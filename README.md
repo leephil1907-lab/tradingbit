@@ -1,8 +1,8 @@
-# PRIMEVEST TRADING BOT — by PRIMEVEST
+# PrimeVest Atlas — by PRIMEVEST
 
-> Precision, automated. A five-agent consensus system for volatile launch markets — paper-traded first, permanently audit-logged, real-money activation only via PRIMEVEST desk review (when it ships).
+> Precision, automated. An intelligent multi-agent trading system for volatile markets — paper-traded first, permanently audit-logged, real-money activation only via PRIMEVEST desk review (when it ships).
 
-Live product: linked from [PRIMEVEST](https://primevest-web.onrender.com/) · Repo: `leephil1907-lab/tradingbit`
+Product brand: [PRIMEVEST](https://vantabrokerage.vercel.app/) · Product: **PrimeVest Atlas** · Repo: `leephil1907-lab/tradingbit`
 
 ## Status: Phase 0/1 — paper product
 
@@ -56,7 +56,7 @@ Logo: `app/icon.svg` = the PRIMEVEST voxel-P on obsidian (`public/brand/icon.svg
 app/
   (marketing)/           Public front door (Header/Ticker/Footer chrome)
     page.tsx             Landing · track-record/ · agents/ · disclosures/ · staff/
-  (control)/             Control room — the operator console (BotProvider shell, noindex)
+  (control)/             Control room — the trading control room (BotProvider shell, noindex)
     layout.tsx           Loads record + renders sidebar/bottom-nav shell
     dashboard/           Status card (BOT STATUS, paper badge, equity, P&L, open risk,
                          daily-loss meter, feed heartbeat) · Close-all (typed) · kill switch
@@ -85,13 +85,13 @@ data/                    track-record.json · decisions.sample.json · audit.see
 render.yaml              Render blueprint: web service now; worker cron scaffolded (Phase 2)
 ```
 
-### Control room (operator console)
+### Trading control room
 
 - **Three-zone desktop** — sidebar (fixed nav, equity + session P&L + one-click pause/resume + **pinned kill switch**) | content | context rail (live quotes, feed health, alerts) on Dashboard/Performance/Risk only. **Mobile**: monitoring + emergency control only — bottom bar (Dashboard/Positions/Orders/Alerts/Settings), ≥44px targets, no dense tables.
 - **Dark default, light optional** — every color flows through CSS vars; `[data-theme='light']` re-declares them; toggle pinned in the sidebar footer (persisted in `localStorage`).
 - **Friction ladder** — Pause = 1 click; Close all = type `CLOSE ALL`; Kill switch = type `KILL SWITCH` (halts entries, never unwinds, sidebar-pinned); risk-limit changes confirm + audit; every state change is logged with a `PB-` reference.
 - **Honesty** — all figures are the seeded paper run (`data/track-record.json`, seed 42: $500.00 → $784.61, +56.92%, 5W/2L, max DD 1.48%), labeled paper everywhere; empty states are real (book is flat).
-- **Live mode does not exist** in this build — the activation wizard's final step is disabled by policy; paper activation is one click.
+- **Live order execution does not exist** in this build. The control room now offers Demo and Live Market sessions: Demo uses the virtual paper engine; Live Market is read-only market monitoring. Selecting Live Market never enables order placement. The activation wizard's live execution step remains disabled.
 
 Worker and web are deliberately decoupled: the worker produces an audit-grade JSON artifact; the web renders it. In Phase 2 both read/write the shared Postgres (schema included), with the bot worker as a separate Render service.
 
@@ -106,8 +106,8 @@ Worker and web are deliberately decoupled: the worker produces an audit-grade JS
 ## Deployment (Render)
 
 1. Push to `leephil1907-lab/tradingbit`.
-2. Render → New → Blueprint → select repo → `render.yaml` provisions `primevest-trading-bot` (health check `/api/health`).
-3. Set `NEXT_PUBLIC_PRIMEVEST_URL` (defaults to the live terminal URL) — the terminal should link this app from its nav ("Trading Bot").
+2. Render → New → Blueprint → select repo → `render.yaml` provisions `primevest-atlas` (health check `/api/health`).
+3. Set `NEXT_PUBLIC_PRIMEVEST_URL` (defaults to the live terminal URL) — the terminal should link this app from its nav ("PrimeVest Atlas").
 4. Phase 2: uncomment the cron block, add a `DATABASE_URL` (Render Postgres), wire Prisma.
 
 ## Security
@@ -117,3 +117,17 @@ No secrets in the repo (`.env.example` holds placeholders). The worker needs no 
 ## License
 
 © 2026 PRIMEVEST. All rights reserved. Proprietary and confidential. Not open source.
+
+
+## Session modes
+
+The control room includes a PrimeVest-styled session selector:
+
+- **Demo** — virtual balances and simulated paper fills only.
+- **Live Market** — market monitoring only; order execution is disabled.
+
+The selected session preference persists in the browser and emits a session-change audit event. This is a UI preference, not an authorization mechanism. See [docs/SESSION_MODES.md](docs/SESSION_MODES.md) for the hard separation requirements and release checklist before any live execution work.
+
+## CI
+
+GitHub Actions validates the Next.js production build and Python worker syntax on pull requests and pushes to `main` / feature branches.

@@ -6,15 +6,6 @@ interface CGMarket {
   sparkline_in_7d?: { price?: number[] } | null;
 }
 
-const FALLBACK = {
-  ok: true as const, source: "static-fallback",
-  quotes: [
-    { symbol: "BTC", name: "Bitcoin", price: 75444.7, change24h: 0.8, spark: [74000, 74550, 74220, 75100, 75444.7] },
-    { symbol: "ETH", name: "Ethereum", price: 2155.0, change24h: 1.35, spark: [2100, 2120, 2090, 2140, 2155] },
-    { symbol: "SOL", name: "Solana", price: 88.23, change24h: 1.96, spark: [85.2, 86.1, 84.9, 87.4, 88.23] },
-  ],
-};
-
 export async function GET() {
   try {
     const res = await fetch(
@@ -33,7 +24,7 @@ export async function GET() {
     if (!quotes.length) throw new Error("empty markets payload");
     return Response.json({ ok: true, source: "coingecko", quotes, ts: new Date().toISOString() });
   } catch {
-    return Response.json({ ...FALLBACK, ts: new Date().toISOString() });
+    return Response.json({ ok: false, source: "unavailable", quotes: [], error: "Market data provider unavailable", ts: new Date().toISOString() }, { status: 503 });
   }
 }
 
