@@ -204,8 +204,8 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
         {/* Fixed safety cluster — always one click to pause or stop */}
         <div className="border-t hairline px-3 py-3">
           <div className="flex items-center justify-between px-1">
-            <div><div className="section-label">Demo equity</div><div className="num mt-0.5 text-sm text-gold-400">{equity}</div></div>
-            <div className="text-right"><div className="section-label">Session PnL</div><div className="num mt-0.5 text-sm text-up">{pnl}</div></div>
+            <div><div className="section-label">Account equity · snapshot</div><div className="num mt-0.5 text-sm text-gold-400">{equity}</div></div>
+            <div className="text-right"><div className="section-label">Recorded P&amp;L</div><div className="num mt-0.5 text-sm text-up">{pnl}</div></div>
           </div>
           <div className="mt-3 space-y-2">
             <SessionSelector />
