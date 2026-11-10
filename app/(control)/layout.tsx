@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 
 export default function ControlLayout({ children }: { children: React.ReactNode }) {
   const record = loadTrackRecord();
-  const equity = record ? `$${record.summary.final_equity.toFixed(2)}` : "$500.00";
-  const pnl = record ? `${record.summary.realized_pnl >= 0 ? "+" : ""}$${Math.abs(record.summary.realized_pnl).toFixed(2)}` : "+$0.00";
+  const equity = record ? `${record.summary.final_equity.toFixed(2)}` : "—";
+  const pnl = record ? `${record.summary.realized_pnl >= 0 ? "+" : ""}${Math.abs(record.summary.realized_pnl).toFixed(2)}` : "—";
   return (
-    <ControlShell equity={equity} pnl={pnl} alertsCount={2}>
+    <ControlShell equity={equity} pnl={pnl} alertsCount={0}>
       {children}
     </ControlShell>
   );
