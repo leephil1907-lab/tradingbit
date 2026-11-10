@@ -60,17 +60,6 @@ export function BotProvider({ children }: { children: ReactNode }) {
     } catch { /* private mode */ }
   }, []);
 
-  const switchSessionMode = useCallback(async (mode: SessionMode) => {
-    if (mode === sessionMode) return;
-    setSessionMode(mode);
-    try { window.localStorage.setItem("pv-session-mode", mode); } catch { /* noop */ }
-    const detail = mode === "demo"
-      ? "Selected DEMO session. Virtual balances and simulated fills only."
-      : "Selected LIVE MARKET session. Market data monitoring only; live order execution is disabled.";
-    const ref = await postAudit("SESSION_MODE_CHANGED", detail);
-    notify(ref ? `${mode === "demo" ? "Demo" : "Live market"} session selected · logged ${ref}` : `${mode === "demo" ? "Demo" : "Live market"} session selected`);
-  }, [sessionMode, notify]);
-
   // hydrate persisted status
   useEffect(() => {
     try {
@@ -89,6 +78,17 @@ export function BotProvider({ children }: { children: ReactNode }) {
     if (toastTimer.current) window.clearTimeout(toastTimer.current);
     toastTimer.current = window.setTimeout(() => setToast(null), 4200);
   }, []);
+
+  const switchSessionMode = useCallback(async (mode: SessionMode) => {
+    if (mode === sessionMode) return;
+    setSessionMode(mode);
+    try { window.localStorage.setItem("pv-session-mode", mode); } catch { /* noop */ }
+    const detail = mode === "demo"
+      ? "Selected DEMO session. Virtual balances and simulated fills only."
+      : "Selected LIVE MARKET session. Market data monitoring only; live order execution is disabled.";
+    const ref = await postAudit("SESSION_MODE_CHANGED", detail);
+    notify(ref ? `${mode === "demo" ? "Demo" : "Live market"} session selected · logged ${ref}` : `${mode === "demo" ? "Demo" : "Live market"} session selected`);
+  }, [sessionMode, notify]);
 
   const audit = useCallback((action: string, detail: string) => postAudit(action, detail), []);
 
