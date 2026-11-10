@@ -102,7 +102,7 @@ function KillSwitch() {
     window.setTimeout(async () => {
       window.clearInterval(id);
       setOpen(false); setBusy(false); setProgress(0);
-      await halt("Operator engaged EMERGENCY STOP — all entries blocked, open positions unaffected (paper)");
+      await halt("Emergency stop engaged from PrimeVest Atlas — all new entries blocked; open demo positions remain unchanged");
     }, 900);
   };
 
