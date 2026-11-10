@@ -1,6 +1,6 @@
-# TradingBit production implementation programme
+# PrimeVest Atlas production implementation programme
 
-This programme extends the existing five-agent TradingBit system. It is deliberately incremental: each stage must be testable and observable before the next stage depends on it. The PrimeVest visual system remains the product design standard; financial state and execution permissions remain server-side concerns.
+This programme extends the existing five-agent PrimeVest Atlas system. It is deliberately incremental: each stage must be testable and observable before the next stage depends on it. The PrimeVest visual system remains the product design standard; financial state and execution permissions remain server-side concerns.
 
 ## Current verified baseline
 
