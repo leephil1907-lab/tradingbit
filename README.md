@@ -1,8 +1,8 @@
-# PRIMEVEST TRADING BOT — by PRIMEVEST
+# PrimeVest Atlas — by PRIMEVEST
 
-> Precision, automated. A five-agent consensus system for volatile launch markets — paper-traded first, permanently audit-logged, real-money activation only via PRIMEVEST desk review (when it ships).
+> Precision, automated. An intelligent multi-agent trading system for volatile markets — paper-traded first, permanently audit-logged, real-money activation only via PRIMEVEST desk review (when it ships).
 
-Live product: linked from [PRIMEVEST](https://primevest-web.onrender.com/) · Repo: `leephil1907-lab/tradingbit`
+Product brand: [PRIMEVEST](https://vantabrokerage.vercel.app/) · Product: **PrimeVest Atlas** · Repo: `leephil1907-lab/tradingbit`
 
 ## Status: Phase 0/1 — paper product
 
@@ -106,8 +106,8 @@ Worker and web are deliberately decoupled: the worker produces an audit-grade JS
 ## Deployment (Render)
 
 1. Push to `leephil1907-lab/tradingbit`.
-2. Render → New → Blueprint → select repo → `render.yaml` provisions `primevest-trading-bot` (health check `/api/health`).
-3. Set `NEXT_PUBLIC_PRIMEVEST_URL` (defaults to the live terminal URL) — the terminal should link this app from its nav ("Trading Bot").
+2. Render → New → Blueprint → select repo → `render.yaml` provisions `primevest-atlas` (health check `/api/health`).
+3. Set `NEXT_PUBLIC_PRIMEVEST_URL` (defaults to the live terminal URL) — the terminal should link this app from its nav ("PrimeVest Atlas").
 4. Phase 2: uncomment the cron block, add a `DATABASE_URL` (Render Postgres), wire Prisma.
 
 ## Security
