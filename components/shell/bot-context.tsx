@@ -3,9 +3,12 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 
 export type BotStatus = "paper" | "running" | "paused" | "halted";
+export type SessionMode = "demo" | "live-market";
 
 interface BotContextValue {
   status: BotStatus;
+  sessionMode: SessionMode;
+  switchSessionMode: (mode: SessionMode) => Promise<void>;
   statusLabel: string;
   statusTone: "paper" | "running" | "paused" | "halted";
   pause: () => Promise<void>;
@@ -43,6 +46,7 @@ async function postAudit(action: string, detail: string): Promise<string | null>
 
 export function BotProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<BotStatus>("paper");
+  const [sessionMode, setSessionMode] = useState<SessionMode>("demo");
   const [toast, setToast] = useState<string | null>(null);
   const [feedOk, setFeedOk] = useState<boolean | null>(null);
   const [heartbeatSeconds, setHeartbeatSeconds] = useState(0);
@@ -123,7 +127,7 @@ export function BotProvider({ children }: { children: ReactNode }) {
   const meta = STATUS_META[status];
   return (
     <Ctx.Provider value={{
-      status, statusLabel: meta.label, statusTone: meta.tone,
+      status, statusLabel: meta.label, statusTone: meta.tone, sessionMode, switchSessionMode,
       pause, resume, halt, resetPaper, notify, audit,
       heartbeatSeconds, feedOk,
     }}>
