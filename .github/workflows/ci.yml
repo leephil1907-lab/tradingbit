@@ -1,4 +1,4 @@
-name: TradingBit CI
+name: PrimeVest Atlas CI
 
 on:
   pull_request:
