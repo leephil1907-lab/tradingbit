@@ -36,7 +36,7 @@ export default function AuditLogPage() {
         </div>
       </section>
 
-      <p className="mt-3 text-[9px] leading-4 text-faint">This instance persists to an append-only JSONL file (seed + runtime). Phase 2 promotes the audit trail to Postgres with dual-control review and immutable WORM export. Seed entries describe demo infrastructure; operator actions recorded after your first session appear at the top.</p>
+      <p className="mt-3 text-[9px] leading-4 text-faint">Runtime entries are written to the service's local JSONL file and are not durable across redeploys. PostgreSQL persistence, authenticated actors, dual-control review and immutable export remain future production requirements. Seed entries describe demo infrastructure; runtime actions appear at the top.</p>
     </div>
   );
 }
