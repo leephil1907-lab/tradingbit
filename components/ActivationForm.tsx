@@ -37,8 +37,8 @@ export default function ActivationForm() {
       <div className="rounded-xl border border-up/30 bg-up/5 p-4">
         <div className="num text-[10px] uppercase tracking-[0.2em] text-up">Request recorded · pending infrastructure</div>
         <p className="mt-2 text-sm leading-6 text-muted">
-          Your paper desk is queued. Reference <span className="num text-paper">{reference}</span>.
-          We&apos;ll email you when the desk provisions your virtual $500 book (within 2 business days).
+          Your request was recorded on this server instance. Reference <span className="num text-paper">{reference}</span>.
+          Account creation, email delivery and virtual balance provisioning are not connected yet.
         </p>
         <p className="mt-2 text-[10px] leading-4 text-faint">
           This reference confirms receipt only; it does not create an account or allocate funds. Local-file records may not survive redeployment.
