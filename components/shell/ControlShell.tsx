@@ -204,7 +204,7 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
         {/* Fixed safety cluster — always one click to pause or stop */}
         <div className="border-t hairline px-3 py-3">
           <div className="flex items-center justify-between px-1">
-            <div><div className="section-label">Equity · paper</div><div className="num mt-0.5 text-sm text-gold-400">{equity}</div></div>
+            <div><div className="section-label">Demo equity</div><div className="num mt-0.5 text-sm text-gold-400">{equity}</div></div>
             <div className="text-right"><div className="section-label">Session PnL</div><div className="num mt-0.5 text-sm text-up">{pnl}</div></div>
           </div>
           <div className="mt-3 space-y-2">
@@ -228,7 +228,8 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
         {/* Halted banner — cannot be missed, cannot be dismissed without reset */}
         {sessionMode === "live-market" ? (
           <div role="status" className="border-b border-gold-500/25 bg-gold-500/5 px-4 py-2 text-center font-mono text-[9px] uppercase tracking-[0.14em] text-gold-300">Live market session · read-only monitoring · order execution disabled</div>
-        ) : null}\n        {status === "halted" ? (
+        ) : null}
+        {status === "halted" ? (
           <div role="alert" className="flex flex-wrap items-center justify-center gap-3 border-b border-down/40 bg-down/10 px-4 py-2 text-center">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-down">Kill switch engaged — all new entries blocked</span>
             <Link href="/settings" className="font-mono text-[9px] uppercase tracking-[0.18em] text-down underline underline-offset-2">Reset paper session in Settings →</Link>
