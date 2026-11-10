@@ -163,7 +163,7 @@ function ThemeToggle() {
   );
 }
 
-function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNode; equity: string; pnl: string; alertsCount: number }) {
+function ShellInner({ children, equity, pnl }: { children: ReactNode; equity: string; pnl: string }) {
   const pathname = usePathname();
   const { status, sessionMode } = useBot();
   const showRail = pathname === "/dashboard" || pathname === "/performance" || pathname === "/risk";
@@ -264,10 +264,10 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
   );
 }
 
-export default function ControlShell({ children, equity, pnl, alertsCount }: { children: ReactNode; equity: string; pnl: string; alertsCount: number }) {
+export default function ControlShell({ children, equity, pnl }: { children: ReactNode; equity: string; pnl: string }) {
   return (
     <BotProvider>
-      <ShellInner equity={equity} pnl={pnl} alertsCount={alertsCount}>{children}</ShellInner>
+      <ShellInner equity={equity} pnl={pnl}>{children}</ShellInner>
     </BotProvider>
   );
 }
