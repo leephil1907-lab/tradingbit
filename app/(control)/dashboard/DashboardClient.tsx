@@ -6,24 +6,10 @@ import { useBot } from "@/components/shell/bot-context";
 import ConfirmDialog from "@/components/control/ConfirmDialog";
 import EquityCurve from "@/components/EquityCurve";
 import type { TrackRecord } from "@/lib/record";
-import { fmtPct, fmtSignedUsd, fmtUsd, shortToken } from "@/lib/format";
+import { fmtSignedUsd, fmtUsd, shortToken } from "@/lib/format";
 
 type Decision = { ts: string; event: string; token: string; reasons: string; pnl: number };
 
-function DailyLossMeter({ usedPct }: { usedPct: number }) {
-  const tone = usedPct >= 80 ? "meter-danger" : usedPct >= 50 ? "meter-warn" : "";
-  return (
-    <div>
-      <div className="flex items-baseline justify-between">
-        <span className="section-label">Daily loss limit · 3.0% ($15.00)</span>
-        <span className="num text-[10px] text-up">$15.00 left</span>
-      </div>
-      <div className={`meter mt-1.5 ${tone}`} role="meter" aria-valuemin={0} aria-valuemax={100} aria-valuenow={usedPct} aria-label="Daily loss used">
-        <div style={{ width: `${Math.min(usedPct, 100)}%` }} />
-      </div>
-    </div>
-  );
-}
 
 export default function DashboardClient({ record, sampleEntries }: {
   record: TrackRecord | null;
@@ -37,7 +23,6 @@ export default function DashboardClient({ record, sampleEntries }: {
   const s = record?.summary;
   const equity = s?.final_equity ?? null;
   const sessionPnl = s?.realized_pnl ?? null;
-  const halted = status === "halted";
   const paused = status === "paused";
 
   const runCloseAll = () => {
@@ -92,13 +77,13 @@ export default function DashboardClient({ record, sampleEntries }: {
           </div>
           {/* controls — friction scales with consequence */}
           <div className="flex shrink-0 flex-col justify-center gap-2 border-t hairline-soft pt-4 lg:w-52 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
-            <button type="button" onClick={paused ? resume : pause} disabled={halted}
+            <button type="button" onClick={paused ? resume : pause} disabled
               className={`ctl-btn ${paused ? "" : "ctl-btn-amber"} w-full !py-3 opacity-50`}
               disabled title="Unavailable until the server-side control plane is connected"
               aria-label="Bot controls unavailable — server control plane not connected">
               {paused ? "Resume bot" : "Pause bot"}
             </button>
-            <button type="button" onClick={() => setCloseAllOpen(true)} disabled={halted} className="ctl-btn ctl-btn-danger-outline w-full !py-3 opacity-50" disabled title="Unavailable until persisted positions and server execution controls are connected" aria-label="Close all unavailable — trading state is not connected">
+            <button type="button" onClick={() => setCloseAllOpen(true)} className="ctl-btn ctl-btn-danger-outline w-full !py-3 opacity-50" disabled title="Unavailable until persisted positions and server execution controls are connected" aria-label="Close all unavailable — trading state is not connected">
               Close all positions
             </button>
             <p className="text-center font-mono text-[7px] uppercase leading-3 tracking-[0.18em] text-faint">Execution controls disabled until the server control plane is connected</p>
