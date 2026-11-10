@@ -1,8 +1,8 @@
 {
-  "name": "primevest-trading-bot",
+  "name": "primevest-atlas",
   "version": "0.1.0",
   "private": true,
-  "description": "PRIMEVEST TRADING BOT — a five-agent consensus paper-trading research product by PRIMEVEST.",
+  "description": "PrimeVest Atlas — an intelligent multi-agent trading system by PRIMEVEST.",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "next dev -p 3000",
