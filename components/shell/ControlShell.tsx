@@ -208,7 +208,8 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
             <div className="text-right"><div className="section-label">Session PnL</div><div className="num mt-0.5 text-sm text-up">{pnl}</div></div>
           </div>
           <div className="mt-3 space-y-2">
-            <StatusPill />
+            <SessionSelector />
+            <div className="flex items-center justify-between gap-2"><StatusPill /><span className="font-mono text-[7px] uppercase tracking-[0.12em] text-faint">{sessionMode === "demo" ? "Virtual execution" : "Read-only · no orders"}</span></div>
             <PauseResume />
             <KillSwitch />
             <ThemeToggle />
@@ -225,7 +226,9 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
           <div className="flex items-center gap-2"><SessionSelector compact /><StatusPill compact /></div>
         </div>
         {/* Halted banner — cannot be missed, cannot be dismissed without reset */}
-        {sessionMode === "live-market" ? (\n          <div role="status" className="border-b border-gold-500/25 bg-gold-500/5 px-4 py-2 text-center font-mono text-[9px] uppercase tracking-[0.14em] text-gold-300">Live market session · read-only monitoring · order execution disabled</div>\n        ) : null}\n        {status === "halted" ? (
+        {sessionMode === "live-market" ? (
+          <div role="status" className="border-b border-gold-500/25 bg-gold-500/5 px-4 py-2 text-center font-mono text-[9px] uppercase tracking-[0.14em] text-gold-300">Live market session · read-only monitoring · order execution disabled</div>
+        ) : null}\n        {status === "halted" ? (
           <div role="alert" className="flex flex-wrap items-center justify-center gap-3 border-b border-down/40 bg-down/10 px-4 py-2 text-center">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-down">Kill switch engaged — all new entries blocked</span>
             <Link href="/settings" className="font-mono text-[9px] uppercase tracking-[0.18em] text-down underline underline-offset-2">Reset paper session in Settings →</Link>
