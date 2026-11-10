@@ -56,7 +56,7 @@ Logo: `app/icon.svg` = the PRIMEVEST voxel-P on obsidian (`public/brand/icon.svg
 app/
   (marketing)/           Public front door (Header/Ticker/Footer chrome)
     page.tsx             Landing · track-record/ · agents/ · disclosures/ · staff/
-  (control)/             Control room — the operator console (BotProvider shell, noindex)
+  (control)/             Control room — the trading control room (BotProvider shell, noindex)
     layout.tsx           Loads record + renders sidebar/bottom-nav shell
     dashboard/           Status card (BOT STATUS, paper badge, equity, P&L, open risk,
                          daily-loss meter, feed heartbeat) · Close-all (typed) · kill switch
@@ -85,7 +85,7 @@ data/                    track-record.json · decisions.sample.json · audit.see
 render.yaml              Render blueprint: web service now; worker cron scaffolded (Phase 2)
 ```
 
-### Control room (operator console)
+### Trading control room
 
 - **Three-zone desktop** — sidebar (fixed nav, equity + session P&L + one-click pause/resume + **pinned kill switch**) | content | context rail (live quotes, feed health, alerts) on Dashboard/Performance/Risk only. **Mobile**: monitoring + emergency control only — bottom bar (Dashboard/Positions/Orders/Alerts/Settings), ≥44px targets, no dense tables.
 - **Dark default, light optional** — every color flows through CSS vars; `[data-theme='light']` re-declares them; toggle pinned in the sidebar footer (persisted in `localStorage`).
