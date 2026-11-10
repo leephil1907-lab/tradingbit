@@ -65,14 +65,14 @@ function SessionSelector({ compact = false }: { compact?: boolean }) {
     { mode: "live-market", label: "Live market" },
   ];
   return (
-    <div className={`rounded-xl border hairline bg-obsidian-850/80 p-1 ${compact ? "flex items-center gap-1" : "grid grid-cols-2 gap-1"}`}
+    <div className={`glass-panel rounded-xl p-1 ${compact ? "flex items-center gap-1" : "grid grid-cols-2 gap-1"}`}
       role="group" aria-label="Trading session">
       {options.map((option) => {
         const active = sessionMode === option.mode;
         return (
           <button key={option.mode} type="button" onClick={() => void switchSessionMode(option.mode)}
             aria-pressed={active}
-            className={`rounded-lg px-2.5 py-2 font-mono text-[9px] uppercase tracking-[0.12em] transition-all ${active ? "border border-gold-500/40 bg-gold-500/10 text-gold-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]" : "border border-transparent text-faint hover:border-gold-700/40 hover:text-paper"}`}>
+            className={`glass-control rounded-lg px-2.5 py-2 font-mono text-[9px] uppercase tracking-[0.12em] ${active ? "text-gold-300" : "text-faint hover:text-paper"}`}>
             {option.label}
           </button>
         );
