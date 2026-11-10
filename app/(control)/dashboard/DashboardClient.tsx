@@ -93,14 +93,15 @@ export default function DashboardClient({ record, sampleEntries }: {
           {/* controls — friction scales with consequence */}
           <div className="flex shrink-0 flex-col justify-center gap-2 border-t hairline-soft pt-4 lg:w-52 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
             <button type="button" onClick={paused ? resume : pause} disabled={halted}
-              className={`ctl-btn ${paused ? "" : "ctl-btn-amber"} w-full !py-3`}
-              aria-label={paused ? "Resume the bot" : "Pause the bot — stops new entries"}>
+              className={`ctl-btn ${paused ? "" : "ctl-btn-amber"} w-full !py-3 opacity-50`}
+              disabled title="Unavailable until the server-side control plane is connected"
+              aria-label="Bot controls unavailable — server control plane not connected">
               {paused ? "Resume bot" : "Pause bot"}
             </button>
-            <button type="button" onClick={() => setCloseAllOpen(true)} disabled={halted} className="ctl-btn ctl-btn-danger-outline w-full !py-3" aria-label="Close all positions — requires typed confirmation">
+            <button type="button" onClick={() => setCloseAllOpen(true)} disabled={halted} className="ctl-btn ctl-btn-danger-outline w-full !py-3 opacity-50" disabled title="Unavailable until persisted positions and server execution controls are connected" aria-label="Close all unavailable — trading state is not connected">
               Close all positions
             </button>
-            <p className="text-center font-mono text-[7px] uppercase leading-3 tracking-[0.18em] text-faint">Pause = 1 click · Close all = type CLOSE ALL · Kill switch in sidebar = type KILL SWITCH</p>
+            <p className="text-center font-mono text-[7px] uppercase leading-3 tracking-[0.18em] text-faint">Execution controls disabled until the server control plane is connected</p>
           </div>
         </div>
       </section>
