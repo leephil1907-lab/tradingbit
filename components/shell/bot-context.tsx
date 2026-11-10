@@ -95,14 +95,14 @@ export function BotProvider({ children }: { children: ReactNode }) {
   const pause = useCallback(async () => {
     if (status === "halted") { notify("Bot is halted by kill switch — reset paper session to resume."); return; }
     persist("paused");
-    const ref = await postAudit("BOT_PAUSED", "Operator paused new entries (one-click control)");
+    const ref = await postAudit("BOT_PAUSED", "User paused new entries (one-click control)");
     notify(ref ? `Bot paused · logged ${ref}` : "Bot paused");
   }, [status, persist, notify]);
 
   const resume = useCallback(async () => {
     if (status === "halted") { notify("Bot is halted by kill switch — reset paper session to resume."); return; }
     persist("running");
-    const ref = await postAudit("BOT_RESUMED", "Operator resumed the paper bot");
+    const ref = await postAudit("BOT_RESUMED", "User resumed the demo bot");
     notify(ref ? `Bot resumed · logged ${ref}` : "Bot resumed");
   }, [status, persist, notify]);
 
