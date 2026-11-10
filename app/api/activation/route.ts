@@ -21,15 +21,11 @@ export async function POST(req: Request) {
     }
     const reference = `PB-${randomUUID().slice(0, 8).toUpperCase()}`;
     const record = { reference, email, mode: "paper", received_at: new Date().toISOString() };
-    try {
-      const dir = path.join(process.cwd(), "data");
-      mkdirSync(dir, { recursive: true });
-      appendFileSync(path.join(dir, "activations.jsonl"), JSON.stringify(record) + "\n", "utf-8");
-    } catch {
-      // Ephemeral filesystems (Render) will lose this — Phase 2 persists to Postgres.
-    }
+    const dir = path.join(process.cwd(), "data");
+    mkdirSync(dir, { recursive: true });
+    appendFileSync(path.join(dir, "activations.jsonl"), JSON.stringify(record) + "\n", "utf-8");
     return Response.json({ ok: true, reference });
   } catch {
-    return Response.json({ ok: false, error: "Malformed request." }, { status: 400 });
+    return Response.json({ ok: false, error: "Activation request storage unavailable. Please retry." }, { status: 503 });
   }
 }
