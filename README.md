@@ -91,7 +91,7 @@ render.yaml              Render blueprint: web service now; worker cron scaffold
 - **Dark default, light optional** — every color flows through CSS vars; `[data-theme='light']` re-declares them; toggle pinned in the sidebar footer (persisted in `localStorage`).
 - **Friction ladder** — Pause = 1 click; Close all = type `CLOSE ALL`; Kill switch = type `KILL SWITCH` (halts entries, never unwinds, sidebar-pinned); risk-limit changes confirm + audit; every state change is logged with a `PB-` reference.
 - **Honesty** — all figures are the seeded paper run (`data/track-record.json`, seed 42: $500.00 → $784.61, +56.92%, 5W/2L, max DD 1.48%), labeled paper everywhere; empty states are real (book is flat).
-- **Live mode does not exist** in this build — the activation wizard's final step is disabled by policy; paper activation is one click.
+- **Live order execution does not exist** in this build. The control room now offers Demo and Live Market sessions: Demo uses the virtual paper engine; Live Market is read-only market monitoring. Selecting Live Market never enables order placement. The activation wizard's live execution step remains disabled.
 
 Worker and web are deliberately decoupled: the worker produces an audit-grade JSON artifact; the web renders it. In Phase 2 both read/write the shared Postgres (schema included), with the bot worker as a separate Render service.
 
@@ -117,3 +117,17 @@ No secrets in the repo (`.env.example` holds placeholders). The worker needs no 
 ## License
 
 © 2026 PRIMEVEST. All rights reserved. Proprietary and confidential. Not open source.
+
+
+## Session modes
+
+The control room includes a PrimeVest-styled session selector:
+
+- **Demo** — virtual balances and simulated paper fills only.
+- **Live Market** — market monitoring only; order execution is disabled.
+
+The selected session preference persists in the browser and emits a session-change audit event. This is a UI preference, not an authorization mechanism. See [docs/SESSION_MODES.md](docs/SESSION_MODES.md) for the hard separation requirements and release checklist before any live execution work.
+
+## CI
+
+GitHub Actions validates the Next.js production build and Python worker syntax on pull requests and pushes to `main` / feature branches.
