@@ -130,11 +130,11 @@ function PauseResume() {
   const halted = status === "halted";
   const paused = status === "paused";
   return paused ? (
-    <button type="button" onClick={resume} disabled={halted} className="ctl-btn w-full opacity-50" disabled title="Unavailable until the server-side control plane is connected" aria-label="Resume unavailable — server control plane not connected">
+    <button type="button" onClick={resume} className="ctl-btn w-full opacity-50" disabled title="Unavailable until the server-side control plane is connected" aria-label="Resume unavailable — server control plane not connected">
       <I.play width={13} height={13} /> Resume bot
     </button>
   ) : (
-    <button type="button" onClick={pause} disabled={halted} className="ctl-btn ctl-btn-amber w-full opacity-50" disabled title="Unavailable until the server-side control plane is connected" aria-label="Pause unavailable — server control plane not connected">
+    <button type="button" onClick={pause} className="ctl-btn ctl-btn-amber w-full opacity-50" disabled title="Unavailable until the server-side control plane is connected" aria-label="Pause unavailable — server control plane not connected">
       <I.pause width={13} height={13} /> Pause bot
     </button>
   );
