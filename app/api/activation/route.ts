@@ -24,8 +24,8 @@ export async function POST(req: Request) {
     return Response.json({ ok: false, error: "Enter a valid email address." }, { status: 400 });
   }
 
-  const reference = `PV-${randomUUID().slice(0, 8).toUpperCase()}`;
-  const record = { reference, email, mode: "demo", received_at: new Date().toISOString() };
+  const reference = `PB-${randomUUID().slice(0, 8).toUpperCase()}`;
+  const record = { reference, email, mode: "paper", received_at: new Date().toISOString() };
   try {
     const dir = path.join(process.cwd(), "data");
     mkdirSync(dir, { recursive: true });
