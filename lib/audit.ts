@@ -31,9 +31,7 @@ export function appendAudit(action: string, detail: string, actor = "operator"):
     action: action.slice(0, 64),
     detail: detail.slice(0, 280),
   };
-  try {
-    mkdirSync(DIR, { recursive: true });
-    appendFileSync(RUNTIME, JSON.stringify(entry) + "\n", "utf-8");
-  } catch { /* ephemeral fs — entry returned to caller regardless */ }
+  mkdirSync(DIR, { recursive: true });
+  appendFileSync(RUNTIME, JSON.stringify(entry) + "\n", "utf-8");
   return entry;
 }
