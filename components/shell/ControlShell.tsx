@@ -172,11 +172,11 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
     <div className="flex min-h-dvh bg-obsidian-950 text-paper">
       {/* ───────── Desktop sidebar ───────── */}
       <aside className="sticky top-0 hidden h-dvh w-[15rem] shrink-0 flex-col border-r hairline bg-obsidian-900 md:flex" aria-label="Primary navigation">
-        <Link href="/" className="flex items-center gap-2.5 border-b hairline-soft px-4 py-4" aria-label="PRIMEVEST Trading Bot — overview">
+        <Link href="/" className="flex items-center gap-2.5 border-b hairline-soft px-4 py-4" aria-label="PrimeVest Atlas — overview">
           <Image src="/brand/icon.svg" alt="" width={30} height={30} />
           <span className="leading-none">
             <span className="block font-display text-[13px] font-semibold tracking-[0.2em]">PRIMEVEST</span>
-            <span className="mt-0.5 block font-mono text-[7px] tracking-[0.3em] text-gold-500">TRADING&nbsp;BOT</span>
+            <span className="mt-0.5 block font-mono text-[7px] tracking-[0.3em] text-gold-500">ATLAS</span>
           </span>
         </Link>
         <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-4">
