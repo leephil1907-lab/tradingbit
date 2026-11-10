@@ -7,6 +7,7 @@ import ConfirmDialog from "@/components/control/ConfirmDialog";
 import EquityCurve from "@/components/EquityCurve";
 import type { TrackRecord } from "@/lib/record";
 import { fmtPct, fmtSignedUsd, fmtUsd, shortToken } from "@/lib/format";
+import SessionModePanel from "@/components/control/SessionModePanel";
 
 type Decision = { ts: string; event: string; token: string; reasons: string; pnl: number };
 
