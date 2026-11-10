@@ -35,8 +35,8 @@ export default function DashboardClient({ record, sampleEntries }: {
   const [closeAllProgress, setCloseAllProgress] = useState(0);
 
   const s = record?.summary;
-  const equity = s?.final_equity ?? 500;
-  const sessionPnl = s?.realized_pnl ?? 0;
+  const equity = s?.final_equity ?? null;
+  const sessionPnl = s?.realized_pnl ?? null;
   const halted = status === "halted";
   const paused = status === "paused";
 
@@ -69,25 +69,25 @@ export default function DashboardClient({ record, sampleEntries }: {
             <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-3">
               <div>
                 <div className="section-label">Equity</div>
-                <div className="kpi kpi-lg mt-1 text-paper">{fmtUsd(equity)}</div>
+                <div className="kpi kpi-lg mt-1 text-paper">{equity === null ? "—" : fmtUsd(equity)}</div>
                 <div className="mt-1 text-[9px] text-faint">incl. open marks · paper</div>
               </div>
               <div>
                 <div className="section-label">Session P&amp;L</div>
-                <div className={`kpi kpi-lg mt-1 ${sessionPnl >= 0 ? "text-up" : "text-down"}`}>{fmtSignedUsd(sessionPnl)}</div>
+                <div className={`kpi kpi-lg mt-1 ${sessionPnl === null ? "text-paper" : sessionPnl >= 0 ? "text-up" : "text-down"}`}>{sessionPnl === null ? "—" : fmtSignedUsd(sessionPnl)}</div>
                 <div className="mt-1 text-[9px] text-faint">{s ? `${s.closed_trades} closed · ${s.sell_fills} fills` : "no fills yet"}</div>
               </div>
               <div>
                 <div className="section-label">Open risk</div>
-                <div className="kpi kpi-lg mt-1 text-paper">0.0<span className="text-lg text-faint">%</span></div>
-                <div className="mt-1 text-[9px] text-faint">flat · 0 positions · 0 orders</div>
+                <div className="kpi kpi-lg mt-1 text-paper">—</div>
+                <div className="mt-1 text-[9px] text-faint">No persisted risk state</div>
               </div>
             </div>
-            <div className="mt-4 max-w-md"><DailyLossMeter usedPct={0} /></div>
+            <div className="mt-4 max-w-md rounded-lg border hairline-soft px-3 py-2 text-[10px] text-faint">Risk limits unavailable until account persistence and worker controls are connected.</div>
             <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[9px] uppercase tracking-[0.16em] text-faint">
               <span className="flex items-center gap-1.5"><span className={`inline-block h-1.5 w-1.5 rounded-full ${feedOk === null ? "bg-faint" : feedOk ? "bg-up" : "bg-down"}`} />Feed · {feedOk === null ? "probing" : feedOk ? "live" : "degraded"}</span>
               <span>Last heartbeat · {heartbeatSeconds}s ago</span>
-              <span>Fees paid · {s ? fmtUsd(s.fees_paid) : "$0.00"}</span>
+              <span>Fees paid · {s ? fmtUsd(s.fees_paid) : "—"}</span>
             </div>
           </div>
           {/* controls — friction scales with consequence */}
@@ -140,12 +140,12 @@ export default function DashboardClient({ record, sampleEntries }: {
           </div>
           <div className="mt-3 grid grid-cols-2 gap-3">
             <div className="rounded-lg border hairline-soft p-3 text-center">
-              <div className="kpi text-xl text-paper">0</div>
-              <div className="section-label mt-1">Active orders</div>
+              <div className="kpi text-xl text-paper">—</div>
+              <div className="section-label mt-1">Persisted orders</div>
             </div>
             <div className="rounded-lg border hairline-soft p-3 text-center">
-              <div className="kpi text-xl text-paper">0</div>
-              <div className="section-label mt-1">Open positions</div>
+              <div className="kpi text-xl text-paper">—</div>
+              <div className="section-label mt-1">Persisted positions</div>
             </div>
           </div>
           <div className="mt-3 min-h-0 flex-1">
@@ -168,32 +168,28 @@ export default function DashboardClient({ record, sampleEntries }: {
         <section aria-label="Active risk" className="panel-flat p-4">
           <div className="section-label">Active risk</div>
           <dl className="mt-2 space-y-2 text-[11px]">
-            <div className="flex justify-between"><dt className="text-faint">Exposure</dt><dd className="num text-paper">0.0% of equity</dd></div>
-            <div className="flex justify-between"><dt className="text-faint">Margin / leverage</dt><dd className="num text-paper">none · spot paper</dd></div>
-            <div className="flex justify-between"><dt className="text-faint">Largest possible loss today</dt><dd className="num text-paper">$15.00 (3.0%)</dd></div>
-            <div className="flex justify-between"><dt className="text-faint">Stop-loss at risk</dt><dd className="num text-paper">$0.00 open</dd></div>
+            <div className="flex justify-between"><dt className="text-faint">Exposure</dt><dd className="num text-paper">Not available</dd></div>
+            <div className="flex justify-between"><dt className="text-faint">Margin / leverage</dt><dd className="num text-paper">Not configured</dd></div>
+            <div className="flex justify-between"><dt className="text-faint">Daily loss limit</dt><dd className="num text-paper">Not configured</dd></div>
+            <div className="flex justify-between"><dt className="text-faint">Stop-loss exposure</dt><dd className="num text-paper">Not available</dd></div>
           </dl>
           <Link href="/risk" className="num mt-3 inline-block text-[9px] uppercase tracking-[0.2em] text-gold-500 hover:text-gold-400">Risk center →</Link>
         </section>
         <section aria-label="Feed and API health" className="panel-flat p-4">
           <div className="section-label">Feed &amp; API health</div>
           <ul className="mt-2 space-y-1.5 font-mono text-[10px]">
-            <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-up" /><span className="text-muted">DexScreener</span><span className="ml-auto text-faint">public · 45s cache</span></li>
-            <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-up" /><span className="text-muted">CoinGecko</span><span className="ml-auto text-faint">public · 45s cache</span></li>
+            <li className="flex items-center gap-2"><span className={`h-1.5 w-1.5 rounded-full ${feedOk ? "bg-up" : "bg-down"}`} /><span className="text-muted">Market overview API</span><span className="ml-auto text-faint">{feedOk ? "reachable" : "unavailable"}</span></li>
             <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-faint" /><span className="text-muted">GMGN</span><span className="ml-auto text-warn">not configured</span></li>
             <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-faint" /><span className="text-muted">Solana RPC</span><span className="ml-auto text-warn">not configured</span></li>
           </ul>
-          <p className="mt-2 text-[9px] leading-4 text-faint">No stale prices are ever shown as live: every figure elsewhere in the app carries its source and age.</p>
+          <p className="mt-2 text-[9px] leading-4 text-faint">This checks API reachability only. Provider-level freshness and worker health are not yet connected.</p>
         </section>
         <section aria-label="Alerts preview" className="panel-flat border-warn/25 p-4">
           <div className="flex items-center justify-between">
-            <span className="section-label !text-warn">Alerts · 2 open</span>
-            <Link href="/alerts" className="num text-[9px] uppercase tracking-[0.2em] text-warn hover:opacity-80">All alerts →</Link>
+            <span className="section-label !text-warn">Operational status</span>
+            <Link href="/alerts" className="num text-[9px] uppercase tracking-[0.2em] text-warn hover:opacity-80">Status details →</Link>
           </div>
-          <ul className="mt-2 space-y-2 text-[10px] leading-5 text-muted">
-            <li className="rounded border border-warn/25 bg-warn/5 px-2.5 py-2"><span className="num text-warn">WARN</span> — Equity shown from a seeded synthetic run with live marks; not a live track.</li>
-            <li className="rounded border hairline-soft px-2.5 py-2"><span className="num text-gold-400">INFO</span> — Paper desk activation pending your email; bot runs the seeded record meanwhile.</li>
-          </ul>
+          <p className="mt-2 rounded border hairline-soft px-2.5 py-3 text-[10px] leading-5 text-muted">Live account state, durable alerts and worker execution status are not connected yet. This panel will populate from persisted operational events.</p>
         </section>
       </div>
 
