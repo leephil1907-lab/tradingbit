@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode, type SVGProps } from "react";
-import { BotProvider, useBot, type BotStatus } from "./bot-context";
+import { BotProvider, useBot, type BotStatus, type SessionMode } from "./bot-context";
 import ConfirmDialog from "@/components/control/ConfirmDialog";
 import ContextRail from "@/components/control/ContextRail";
 
@@ -55,6 +55,30 @@ function StatusPill({ compact = false }: { compact?: boolean }) {
     <span className={`pill ${PILL[status]}`} role="status" aria-label={`Bot status: ${statusLabel}`}>
       <span className="pill-dot" />{compact ? statusLabel.split(" ")[0] : statusLabel}
     </span>
+  );
+}
+
+function SessionSelector({ compact = false }: { compact?: boolean }) {
+  const { sessionMode, switchSessionMode } = useBot();
+  const options: { mode: SessionMode; label: string }[] = [
+    { mode: "demo", label: "Demo" },
+    { mode: "live-market", label: "Live market" },
+  ];
+  return (
+    <div className={`rounded-xl border hairline bg-obsidian-850/80 p-1 ${compact ? "flex items-center gap-1" : "grid grid-cols-2 gap-1"}`}
+      role="group" aria-label="Trading session">
+      {options.map((option) => {
+        const active = sessionMode === option.mode;
+        return (
+          <button key={option.mode} type="button" onClick={() => void switchSessionMode(option.mode)}
+            aria-pressed={active}
+            className={`rounded-lg px-2.5 py-2 font-mono text-[9px] uppercase tracking-[0.12em] transition-all ${active ? "border border-gold-500/40 bg-gold-500/10 text-gold-300 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]" : "border border-transparent text-faint hover:border-gold-700/40 hover:text-paper"}`}>
+            {option.label}
+          </button>
+        );
+      })}
+      {sessionMode === "live-market" ? <span className="sr-only">Read-only market monitoring. Live order execution is disabled.</span> : null}
+    </div>
   );
 }
 
@@ -141,7 +165,7 @@ function ThemeToggle() {
 
 function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNode; equity: string; pnl: string; alertsCount: number }) {
   const pathname = usePathname();
-  const { status } = useBot();
+  const { status, sessionMode } = useBot();
   const showRail = pathname === "/dashboard" || pathname === "/performance" || pathname === "/risk";
 
   return (
@@ -189,7 +213,7 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
             <KillSwitch />
             <ThemeToggle />
           </div>
-          <p className="mt-2 px-1 text-center font-mono text-[7px] uppercase tracking-[0.2em] text-faint">Paper only · live locked by policy</p>
+          <p className="mt-2 px-1 text-center font-mono text-[7px] uppercase tracking-[0.2em] text-faint">Demo execution · live orders disabled</p>
         </div>
       </aside>
 
@@ -198,10 +222,10 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
         {/* Mobile top bar */}
         <div className="flex h-14 items-center justify-between border-b hairline bg-obsidian-900 px-4 md:hidden">
           <Link href="/" className="flex items-center gap-2"><Image src="/brand/icon.svg" alt="" width={22} height={22} /><span className="font-display text-[11px] font-semibold tracking-[0.18em]">PRIMEVEST</span></Link>
-          <StatusPill compact />
+          <div className="flex items-center gap-2"><SessionSelector compact /><StatusPill compact /></div>
         </div>
         {/* Halted banner — cannot be missed, cannot be dismissed without reset */}
-        {status === "halted" ? (
+        {sessionMode === "live-market" ? (\n          <div role="status" className="border-b border-gold-500/25 bg-gold-500/5 px-4 py-2 text-center font-mono text-[9px] uppercase tracking-[0.14em] text-gold-300">Live market session · read-only monitoring · order execution disabled</div>\n        ) : null}\n        {status === "halted" ? (
           <div role="alert" className="flex flex-wrap items-center justify-center gap-3 border-b border-down/40 bg-down/10 px-4 py-2 text-center">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.2em] text-down">Kill switch engaged — all new entries blocked</span>
             <Link href="/settings" className="font-mono text-[9px] uppercase tracking-[0.18em] text-down underline underline-offset-2">Reset paper session in Settings →</Link>
