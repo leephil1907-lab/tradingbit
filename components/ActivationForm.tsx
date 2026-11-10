@@ -35,13 +35,13 @@ export default function ActivationForm() {
   if (state === "done") {
     return (
       <div className="rounded-xl border border-up/30 bg-up/5 p-4">
-        <div className="num text-[10px] uppercase tracking-[0.2em] text-up">Paper activation received</div>
+        <div className="num text-[10px] uppercase tracking-[0.2em] text-up">Request recorded · pending infrastructure</div>
         <p className="mt-2 text-sm leading-6 text-muted">
           Your paper desk is queued. Reference <span className="num text-paper">{reference}</span>.
           We&apos;ll email you when the desk provisions your virtual $500 book (within 2 business days).
         </p>
         <p className="mt-2 text-[10px] leading-4 text-faint">
-          Real-money activation is a separate, manual review through the PRIMEVEST terminal. This form never collects payment data or keys.
+          This reference confirms receipt only; it does not create an account or allocate funds. Local-file records may not survive redeployment.
         </p>
       </div>
     );
