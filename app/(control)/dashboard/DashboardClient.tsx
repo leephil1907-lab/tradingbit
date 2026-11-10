@@ -77,7 +77,7 @@ export default function DashboardClient({ record, sampleEntries }: {
           </div>
           {/* controls — friction scales with consequence */}
           <div className="flex shrink-0 flex-col justify-center gap-2 border-t hairline-soft pt-4 lg:w-52 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">
-            <button type="button" onClick={paused ? resume : pause} disabled
+            <button type="button" onClick={paused ? resume : pause}
               className={`ctl-btn ${paused ? "" : "ctl-btn-amber"} w-full !py-3 opacity-50`}
               disabled title="Unavailable until the server-side control plane is connected"
               aria-label="Bot controls unavailable — server control plane not connected">
