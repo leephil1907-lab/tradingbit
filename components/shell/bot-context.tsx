@@ -52,6 +52,25 @@ export function BotProvider({ children }: { children: ReactNode }) {
   const [heartbeatSeconds, setHeartbeatSeconds] = useState(0);
   const toastTimer = useRef<number | null>(null);
 
+  // Restore the selected session. Live-market mode is read-only; it never enables orders.
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("pv-session-mode");
+      if (saved === "demo" || saved === "live-market") setSessionMode(saved);
+    } catch { /* private mode */ }
+  }, []);
+
+  const switchSessionMode = useCallback(async (mode: SessionMode) => {
+    if (mode === sessionMode) return;
+    setSessionMode(mode);
+    try { window.localStorage.setItem("pv-session-mode", mode); } catch { /* noop */ }
+    const detail = mode === "demo"
+      ? "Selected DEMO session. Virtual balances and simulated fills only."
+      : "Selected LIVE MARKET session. Market data monitoring only; live order execution is disabled.";
+    const ref = await postAudit("SESSION_MODE_CHANGED", detail);
+    notify(ref ? `${mode === "demo" ? "Demo" : "Live market"} session selected · logged ${ref}` : `${mode === "demo" ? "Demo" : "Live market"} session selected`);
+  }, [sessionMode, notify]);
+
   // hydrate persisted status
   useEffect(() => {
     try {
