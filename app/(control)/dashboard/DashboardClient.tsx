@@ -7,6 +7,7 @@ import ConfirmDialog from "@/components/control/ConfirmDialog";
 import EquityCurve from "@/components/EquityCurve";
 import type { TrackRecord } from "@/lib/record";
 import { fmtPct, fmtSignedUsd, fmtUsd, shortToken } from "@/lib/format";
+import SessionModePanel from "@/components/control/SessionModePanel";
 
 type Decision = { ts: string; event: string; token: string; reasons: string; pnl: number };
 
@@ -56,6 +57,7 @@ export default function DashboardClient({ record, sampleEntries }: {
 
   return (
     <div className="mx-auto max-w-6xl">
+      <SessionModePanel />
       {/* ═══════════ ZONE 1 — STATUS CARD (answers Q1–Q3 in seconds) ═══════════ */}
       <section aria-label="Bot status" className="panel p-4 sm:p-5">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-stretch lg:justify-between">
