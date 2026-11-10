@@ -108,7 +108,7 @@ function KillSwitch() {
 
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className="ctl-btn ctl-btn-danger w-full" aria-label="Emergency stop — halt the bot immediately">
+      <button type="button" onClick={() => setOpen(true)} className="ctl-btn ctl-btn-danger w-full opacity-50" disabled title="Unavailable until the server-side control plane is connected" aria-label="Emergency stop unavailable — server control plane not connected">
         <I.skull width={14} height={14} /> Kill switch
       </button>
       <ConfirmDialog
@@ -130,11 +130,11 @@ function PauseResume() {
   const halted = status === "halted";
   const paused = status === "paused";
   return paused ? (
-    <button type="button" onClick={resume} disabled={halted} className="ctl-btn w-full" aria-label="Resume the bot">
+    <button type="button" onClick={resume} disabled={halted} className="ctl-btn w-full opacity-50" disabled title="Unavailable until the server-side control plane is connected" aria-label="Resume unavailable — server control plane not connected">
       <I.play width={13} height={13} /> Resume bot
     </button>
   ) : (
-    <button type="button" onClick={pause} disabled={halted} className="ctl-btn ctl-btn-amber w-full" aria-label="Pause the bot — stops new entries, exits still run">
+    <button type="button" onClick={pause} disabled={halted} className="ctl-btn ctl-btn-amber w-full opacity-50" disabled title="Unavailable until the server-side control plane is connected" aria-label="Pause unavailable — server control plane not connected">
       <I.pause width={13} height={13} /> Pause bot
     </button>
   );
@@ -235,7 +235,7 @@ function ShellInner({ children, equity, pnl, alertsCount }: { children: ReactNod
             <Link href="/settings" className="font-mono text-[9px] uppercase tracking-[0.18em] text-down underline underline-offset-2">Reset paper session in Settings →</Link>
           </div>
         ) : null}
-        <main className="min-w-0 flex-1 px-4 pb-20 pt-4 sm:px-5 md:pb-6 md:pt-5">{children}</main>
+        <main className="min-w-0 flex-1 px-4 pb-20 pt-4 sm:px-5 md:pb-6 md:pt-5"><div role="status" className="mb-4 rounded-lg border border-warn/30 bg-warn/5 px-3 py-2 font-mono text-[9px] uppercase leading-5 tracking-[0.12em] text-warn">Monitoring shell only · server-side bot controls and durable account state are not connected. Execution controls are disabled.</div>{children}</main>
       </div>
 
       {/* ───────── Context rail (monitoring screens) ───────── */}
