@@ -6,21 +6,22 @@ const display = Playfair_Display({ subsets: ["latin"], variable: "--font-display
 const sans = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
 const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500", "600"], variable: "--font-mono", display: "swap" });
 
-const PRIMEVEST_URL = process.env.NEXT_PUBLIC_PRIMEVEST_URL ?? "https://primevest-web.onrender.com";
+const PRIMEVEST_URL = process.env.NEXT_PUBLIC_PRIMEVEST_URL ?? "https://vantabrokerage.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(PRIMEVEST_URL),
   title: {
-    default: "PRIMEVEST Trading Bot — Precision, automated.",
-    template: "%s · PRIMEVEST Trading Bot",
+    default: "PrimeVest Atlas — Intelligent Trading System",
+    template: "%s · PrimeVest Atlas",
   },
   description:
-    "A five-agent consensus paper-trading research product by PRIMEVEST. No single signal opens a position; every decision is audit-logged. Paper mode first — real activation only after PRIMEVEST desk review.",
+    "PrimeVest Atlas is the intelligent trading system from PRIMEVEST: multi-agent market analysis, demo execution, strategy research and audited risk controls.",
+  applicationName: "PrimeVest Atlas",
   icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }] },
   openGraph: {
-    title: "PRIMEVEST Trading Bot",
-    description: "Precision, automated. Five agents, one decision, a permanent audit log.",
-    siteName: "PRIMEVEST Trading Bot",
+    title: "PrimeVest Atlas",
+    description: "Intelligent Trading, Engineered with Precision.",
+    siteName: "PrimeVest Atlas",
     type: "website",
   },
 };
