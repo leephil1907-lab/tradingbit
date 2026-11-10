@@ -1,8 +1,8 @@
-# TradingBit session model
+# PrimeVest Atlas session model
 
 ## Current release contract
 
-TradingBit exposes two user-selectable sessions in the PrimeVest control shell:
+PrimeVest Atlas exposes two user-selectable sessions in the PrimeVest control shell:
 
 - **Demo**: the existing virtual paper-trading workflow. Orders/fills are simulated by the Python paper engine and must be labeled as simulated.
 - **Live market**: live market-data monitoring only. It is deliberately read-only in this release. Selecting it does not create an exchange session, authenticate an exchange account, expose credentials, or enable order placement.
